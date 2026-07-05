@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Staff — Unified Applications</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#0a0d14;
+  --void-soft:#11151f;
+  --panel:#141925;
+  --panel-raised:#181e2c;
+  --line:rgba(255,255,255,0.09);
+  --line-soft:rgba(255,255,255,0.05);
+  --ink:#edeff5;
+  --mist:#8b92a6;
+  --mist-dim:#5b6175;
+  --blue:#4169ff;
+  --red:#ff3b4e;
+  --green:#3ddc8a;
+  --radius:7px;
+  --radius-lg:10px;
+  --font-display:'Big Shoulders Display',sans-serif;
+  --font-body:'IBM Plex Sans',sans-serif;
+  --font-mono:'IBM Plex Mono',monospace;
+  --container:1180px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--void);color:var(--ink);
+  font-family:var(--font-body);line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;display:flex;flex-direction:column;
+}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;}
+.wrap{max-width:var(--container);margin:0 auto;padding-inline:clamp(20px,5vw,56px);}
+
+.btn{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  font-family:var(--font-body);font-weight:600;font-size:0.88rem;
+  padding:0.6rem 1.2rem;border-radius:var(--radius);border:1px solid transparent;
+  transition:transform 0.15s ease,box-shadow 0.15s ease,border-color 0.15s ease,background 0.15s ease;
+  white-space:nowrap;
+}
+.btn-primary{background:linear-gradient(115deg,var(--blue),var(--red));color:#fff;}
+.btn-primary:hover{transform:translateY(-1px);}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line);}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.3);}
+.btn-accept{background:rgba(61,220,138,0.15);color:var(--green);border-color:rgba(61,220,138,0.3);}
+.btn-accept:hover{background:rgba(61,220,138,0.25);}
+.btn-reject{background:rgba(255,59,78,0.12);color:var(--red);border-color:rgba(255,59,78,0.3);}
+.btn-reject:hover{background:rgba(255,59,78,0.22);}
+.btn-sm{padding:0.42rem 0.85rem;font-size:0.8rem;}
+.btn:disabled{opacity:0.4;pointer-events:none;}
+
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:60;
+  background:rgba(10,13,20,0.78);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line-soft);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:72px;}
+.brand{display:flex;align-items:center;gap:0.65rem;font-family:var(--font-display);font-weight:700;font-size:1.1rem;}
+.brand-mark{width:28px;height:28px;flex-shrink:0;}
+.nav-right{display:flex;align-items:center;gap:0.8rem;}
+.auth-chip{
+  display:flex;align-items:center;gap:0.5rem;
+  font-family:var(--font-mono);font-size:0.76rem;color:var(--mist);
+  border:1px solid var(--line);border-radius:99px;padding:0.3rem 0.8rem 0.3rem 0.35rem;
+}
+.auth-chip .av{
+  width:22px;height:22px;border-radius:50%;overflow:hidden;flex-shrink:0;
+  background:linear-gradient(135deg,var(--blue),var(--red));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-size:0.65rem;color:#fff;
+}
+.auth-chip .av img{width:100%;height:100%;object-fit:cover;}
+
+/* PAGE */
+main{flex:1;padding-top:clamp(40px,6vw,64px);padding-bottom:clamp(48px,8vw,96px);}
+
+.page-head{margin-bottom:2.4rem;}
+.page-head h1{
+  font-family:var(--font-display);font-weight:800;
+  font-size:clamp(2rem,4vw,3rem);text-transform:uppercase;
+  margin-top:0.5rem;
+}
+.page-head p{color:var(--mist);margin-top:0.6rem;font-size:0.95rem;}
+
+/* FILTER TABS */
+.filter-row{display:flex;gap:0.55rem;margin-bottom:1.8rem;flex-wrap:wrap;}
+.tab{
+  background:transparent;border:1px solid var(--line);color:var(--mist);
+  padding:0.5rem 1.1rem;border-radius:99px;
+  font-family:var(--font-mono);font-size:0.74rem;letter-spacing:0.05em;text-transform:uppercase;
+  transition:color 0.15s ease,border-color 0.15s ease,background 0.15s ease;
+}
+.tab:hover{border-color:rgba(255,255,255,0.3);color:var(--ink);}
+.tab.active{background:linear-gradient(115deg,var(--blue),var(--red));color:#fff;border-color:transparent;}
+
+/* STATS ROW */
+.stats-row{
+  display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap;
+}
+.stat-pill{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-lg);
+  padding:0.8rem 1.2rem;display:flex;flex-direction:column;gap:0.2rem;min-width:110px;
+}
+.stat-pill strong{font-family:var(--font-display);font-size:1.6rem;font-weight:700;}
+.stat-pill span{font-family:var(--font-mono);font-size:0.66rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--mist-dim);}
+
+/* APPLICATION CARDS */
+.apps-grid{display:flex;flex-direction:column;gap:0.9rem;}
+
+.app-card{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-lg);
+  padding:1.4rem 1.5rem;
+  display:grid;grid-template-columns:auto 1fr auto;
+  gap:1rem;align-items:start;
+}
+.app-avatar{
+  width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0;
+  background:linear-gradient(135deg,var(--blue),var(--red));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-weight:700;font-size:1rem;color:#fff;
+}
+.app-avatar img{width:100%;height:100%;object-fit:cover;}
+.app-body{}
+.app-username{font-weight:700;font-size:1rem;margin-bottom:0.25rem;}
+.app-meta{font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.03em;color:var(--mist-dim);}
+.app-status{
+  font-family:var(--font-mono);font-size:0.66rem;letter-spacing:0.08em;text-transform:uppercase;
+  padding:0.28rem 0.7rem;border-radius:99px;border:1px solid var(--line);
+  align-self:flex-start;
+}
+.app-status.pending{color:var(--blue);border-color:rgba(65,105,255,0.35);background:rgba(65,105,255,0.08);}
+.app-status.accepted{color:var(--green);border-color:rgba(61,220,138,0.35);background:rgba(61,220,138,0.08);}
+.app-status.rejected{color:var(--red);border-color:rgba(255,59,78,0.35);background:rgba(255,59,78,0.08);}
+
+.app-actions{
+  display:flex;gap:0.5rem;margin-top:0.9rem;align-items:center;flex-wrap:wrap;
+}
+
+.review-note{
+  margin-top:0.6rem;
+  background:var(--void-soft);border:1px solid var(--line-soft);border-radius:var(--radius);
+  padding:0.6rem 0.8rem;
+  font-size:0.82rem;color:var(--mist);font-style:italic;
+}
+
+/* EMPTY / LOADING */
+.state-box{
+  padding:4rem 1rem;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:0.7rem;
+}
+.state-box h3{font-family:var(--font-display);font-weight:700;font-size:1.2rem;}
+.state-box p{color:var(--mist);font-size:0.9rem;max-width:340px;}
+.spinner{
+  width:28px;height:28px;border-radius:50%;
+  border:2.5px solid var(--line);border-top-color:var(--blue);
+  animation:spin 0.8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ACCESS DENIED */
+.access-denied{
+  flex:1;display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:1rem;text-align:center;padding:3rem 1rem;
+}
+.access-denied h2{font-family:var(--font-display);font-weight:700;font-size:1.8rem;}
+.access-denied p{color:var(--mist);max-width:380px;}
+
+/* MODAL */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:100;
+  display:flex;align-items:center;justify-content:center;padding:1rem;
+  opacity:0;pointer-events:none;transition:opacity 0.2s ease;
+}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-lg);
+  padding:1.8rem;width:100%;max-width:480px;
+  transform:translateY(12px);transition:transform 0.2s ease;
+}
+.modal-overlay.open .modal{transform:translateY(0);}
+.modal h3{font-family:var(--font-display);font-weight:700;font-size:1.3rem;margin-bottom:0.4rem;}
+.modal p{color:var(--mist);font-size:0.88rem;margin-bottom:1.2rem;}
+.modal textarea{
+  width:100%;background:var(--void-soft);border:1px solid var(--line);
+  border-radius:var(--radius);padding:0.75rem 0.9rem;
+  font-family:var(--font-body);font-size:0.9rem;color:var(--ink);
+  resize:vertical;min-height:90px;margin-bottom:1.2rem;
+}
+.modal textarea:focus{outline:none;border-color:rgba(65,105,255,0.5);}
+.modal textarea::placeholder{color:var(--mist-dim);}
+.modal-actions{display:flex;gap:0.7rem;justify-content:flex-end;}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:2rem;left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:var(--panel-raised);border:1px solid rgba(65,105,255,0.4);
+  border-radius:99px;padding:0.75rem 1.5rem;
+  font-family:var(--font-mono);font-size:0.8rem;color:var(--ink);
+  display:flex;align-items:center;gap:0.6rem;
+  box-shadow:0 12px 36px -8px rgba(0,0,0,0.6);
+  opacity:0;transition:opacity 0.25s ease,transform 0.25s ease;
+  pointer-events:none;z-index:200;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast-dot{width:7px;height:7px;border-radius:50%;background:var(--blue);flex-shrink:0;}
+
+@media(max-width:640px){
+  .app-card{grid-template-columns:auto 1fr;}.app-status{grid-column:span 2;}
+  .stats-row{gap:0.6rem;}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="/" class="brand">
+      <svg class="brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <path d="M16 2 L29 16 L16 30 L16 16 Z" fill="#4169ff"/>
+        <path d="M16 2 L3 16 L16 30 L16 16 Z" fill="#ff3b4e"/>
+      </svg>
+      UNIFIED APPLICATIONS
+    </a>
+    <div class="nav-right">
+      <div class="auth-chip" id="authChip">
+        <span class="av" id="authAvatar"></span>
+        <span id="authUsername"></span>
+      </div>
+      <a href="/" class="btn btn-ghost btn-sm">← Back</a>
+    </div>
+  </div>
+</header>
+
+<!-- Access denied state (shown if not a reviewer) -->
+<div class="access-denied" id="accessDenied" style="display:none;">
+  <h2>Access Denied</h2>
+  <p>You need the Application Reviewer role to access this page. If you think this is a mistake, contact a senior staff member.</p>
+  <a href="/" class="btn btn-ghost">Go back</a>
+</div>
+
+<!-- Main staff panel -->
+<main id="staffPanel" style="display:none;">
+  <div class="wrap">
+
+    <div class="page-head">
+      <span style="font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--blue);">Staff Panel</span>
+      <h1>Applications</h1>
+      <p>Review, accept, or reject applicants. Accepted users are automatically assigned the Season 1 Participant role and notified via DM.</p>
+    </div>
+
+    <div class="stats-row" id="statsRow">
+      <div class="stat-pill"><strong id="statTotal">—</strong><span>Total</span></div>
+      <div class="stat-pill"><strong id="statPending">—</strong><span>Pending</span></div>
+      <div class="stat-pill"><strong id="statAccepted">—</strong><span>Accepted</span></div>
+      <div class="stat-pill"><strong id="statRejected">—</strong><span>Rejected</span></div>
+    </div>
+
+    <div class="filter-row">
+      <button class="tab active" data-filter="all">All</button>
+      <button class="tab" data-filter="pending">Pending</button>
+      <button class="tab" data-filter="accepted">Accepted</button>
+      <button class="tab" data-filter="rejected">Rejected</button>
+    </div>
+
+    <div class="apps-grid" id="appsGrid">
+      <div class="state-box">
+        <div class="spinner"></div>
+        <p>Loading applications…</p>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- Review modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3 id="modalTitle">Review Application</h3>
+    <p id="modalDesc">Add an optional note — this will be included in the DM sent to the applicant.</p>
+    <textarea id="modalNote" placeholder="Optional note to the applicant…"></textarea>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="modalCancel">Cancel</button>
+      <button class="btn" id="modalConfirm">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="toast-dot"></span><span id="toastMsg"></span></div>
+
+<script>
+let allApplications = [];
+let currentFilter = "all";
+let pendingAction = null; // { id, status }
+
+/* ---- AUTH CHECK ---- */
+async function init() {
+  const res = await fetch("/auth/me").catch(() => null);
+  if (!res || !res.ok) return showAccessDenied();
+  const data = await res.json();
+  if (!data.user) return showAccessDenied();
+
+  // Render auth chip
+  const chip = document.getElementById("authChip");
+  const avatarEl = document.getElementById("authAvatar");
+  const usernameEl = document.getElementById("authUsername");
+  usernameEl.textContent = data.user.username;
+  if (data.user.avatar) {
+    avatarEl.innerHTML = `<img src="${data.user.avatar}" alt="">`;
+  } else {
+    avatarEl.textContent = data.user.username.slice(0, 2).toUpperCase();
+  }
+  chip.style.display = "flex";
+
+  // Try loading applications — 403 means not a reviewer
+  await loadApplications();
+}
+
+function showAccessDenied() {
+  document.getElementById("accessDenied").style.display = "flex";
+}
+
+/* ---- LOAD APPLICATIONS ---- */
+async function loadApplications() {
+  const res = await fetch("/api/applications").catch(() => null);
+
+  if (!res) {
+    document.getElementById("staffPanel").style.display = "block";
+    showGridError("Couldn't reach the server.");
+    return;
+  }
+
+  if (res.status === 401 || res.status === 403) {
+    return showAccessDenied();
+  }
+
+  document.getElementById("staffPanel").style.display = "block";
+
+  const data = await res.json();
+  if (!data.success) { showGridError(data.message); return; }
+
+  allApplications = data.applications || [];
+  updateStats();
+  renderGrid();
+}
+
+function updateStats() {
+  const total    = allApplications.length;
+  const pending  = allApplications.filter(a => a.status === "pending").length;
+  const accepted = allApplications.filter(a => a.status === "accepted").length;
+  const rejected = allApplications.filter(a => a.status === "rejected").length;
+  document.getElementById("statTotal").textContent    = total;
+  document.getElementById("statPending").textContent  = pending;
+  document.getElementById("statAccepted").textContent = accepted;
+  document.getElementById("statRejected").textContent = rejected;
+}
+
+function renderGrid() {
+  const grid = document.getElementById("appsGrid");
+  const items = currentFilter === "all"
+    ? allApplications
+    : allApplications.filter(a => a.status === currentFilter);
+
+  if (items.length === 0) {
+    grid.innerHTML = `<div class="state-box">
+      <h3>No applications</h3>
+      <p>${currentFilter === "all" ? "No applications have been submitted yet." : `No ${currentFilter} applications.`}</p>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = items.map(app => {
+    const date = new Date(app.createdAt).toLocaleDateString("en-GB", { day:"numeric", month:"short", year:"numeric" });
+    const avatarHtml = app.discordAvatar
+      ? `<img src="${escHtml(app.discordAvatar)}" alt="">`
+      : escHtml(app.discordUsername.slice(0,2).toUpperCase());
+
+    const reviewInfo = app.status !== "pending"
+      ? `<div class="review-note">Reviewed by ${escHtml(app.reviewedBy || "staff")}${app.reviewNote ? ` — "${escHtml(app.reviewNote)}"` : ""}</div>`
+      : "";
+
+    const actions = app.status === "pending"
+      ? `<div class="app-actions">
+          <button class="btn btn-accept btn-sm" onclick="openModal('${app._id}','accepted')">✓ Accept</button>
+          <button class="btn btn-reject btn-sm" onclick="openModal('${app._id}','rejected')">✕ Reject</button>
+        </div>`
+      : "";
+
+    return `
+      <div class="app-card" id="card-${app._id}">
+        <div class="app-avatar">${avatarHtml}</div>
+        <div class="app-body">
+          <div class="app-username">${escHtml(app.discordUsername)}</div>
+          <div class="app-meta">Discord ID: ${escHtml(app.discordId)} · Submitted ${date}</div>
+          ${reviewInfo}
+          ${actions}
+        </div>
+        <span class="app-status ${app.status}">${app.status}</span>
+      </div>`;
+  }).join("");
+}
+
+function showGridError(msg) {
+  document.getElementById("appsGrid").innerHTML = `<div class="state-box"><h3>Error</h3><p>${escHtml(msg)}</p></div>`;
+}
+
+/* ---- FILTER TABS ---- */
+document.querySelectorAll(".filter-row .tab").forEach(tab => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".filter-row .tab").forEach(t => t.classList.remove("active"));
+    tab.classList.add("active");
+    currentFilter = tab.dataset.filter;
+    renderGrid();
+  });
+});
+
+/* ---- MODAL ---- */
+function openModal(id, status) {
+  pendingAction = { id, status };
+  const overlay = document.getElementById("modalOverlay");
+  document.getElementById("modalTitle").textContent = status === "accepted" ? "Accept Application" : "Reject Application";
+  document.getElementById("modalDesc").textContent = status === "accepted"
+    ? "The applicant will be given the Season 1 Participant role and sent a DM. Add an optional note below."
+    : "The applicant will be notified by DM that their application wasn't successful. Add an optional note below.";
+  document.getElementById("modalNote").value = "";
+  const confirmBtn = document.getElementById("modalConfirm");
+  confirmBtn.textContent = status === "accepted" ? "Accept" : "Reject";
+  confirmBtn.className = `btn ${status === "accepted" ? "btn-accept" : "btn-reject"}`;
+  overlay.classList.add("open");
+}
+
+document.getElementById("modalCancel").addEventListener("click", closeModal);
+document.getElementById("modalOverlay").addEventListener("click", (e) => {
+  if (e.target === e.currentTarget) closeModal();
+});
+
+function closeModal() {
+  document.getElementById("modalOverlay").classList.remove("open");
+  pendingAction = null;
+}
+
+document.getElementById("modalConfirm").addEventListener("click", async () => {
+  if (!pendingAction) return;
+  const { id, status } = pendingAction;
+  const note = document.getElementById("modalNote").value.trim();
+
+  document.getElementById("modalConfirm").disabled = true;
+  document.getElementById("modalConfirm").textContent = "Processing…";
+
+  const res = await fetch(`/api/applications/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status, reviewNote: note }),
+  }).catch(() => null);
+
+  document.getElementById("modalConfirm").disabled = false;
+  closeModal();
+
+  if (!res || !res.ok) {
+    const err = res ? await res.json().catch(() => ({})) : {};
+    showToast(err.message || "Something went wrong.");
+    return;
+  }
+
+  const data = await res.json();
+  if (!data.success) { showToast(data.message); return; }
+
+  // Update local state
+  const idx = allApplications.findIndex(a => a._id === id);
+  if (idx !== -1) allApplications[idx] = data.application;
+
+  updateStats();
+  renderGrid();
+  showToast(status === "accepted" ? "Application accepted — role assigned and DM sent." : "Application rejected — applicant notified.");
+});
+
+/* ---- HELPERS ---- */
+function escHtml(str) {
+  const d = document.createElement("div");
+  d.textContent = str == null ? "" : String(str);
+  return d.innerHTML;
+}
+
+let toastTimer;
+function showToast(msg) {
+  document.getElementById("toastMsg").textContent = msg;
+  const toast = document.getElementById("toast");
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 3500);
+}
+
+init();
+</script>
+</body>
+</html>

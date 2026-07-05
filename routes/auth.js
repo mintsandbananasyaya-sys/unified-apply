@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 const express = require("express");
 const router = express.Router();
 
@@ -76,7 +76,7 @@ router.post("/logout", (req, res) => {
   req.session.destroy(() => res.json({ success: true }));
 });
 
-=======
+
 const express = require("express");
 const router = express.Router();
 
@@ -154,5 +154,5 @@ router.post("/logout", (req, res) => {
   req.session.destroy(() => res.json({ success: true }));
 });
 
->>>>>>> 2de94e1508d15752b2bedfded52a47eeb04d9171
+
 module.exports = router;

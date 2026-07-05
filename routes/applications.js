@@ -1,14 +1,32 @@
 const express = require("express");
 const router = express.Router();
-const { Client, GatewayIntentBits } = require("discord.js");
 const Application = require("../models/Application");
 
 const APP_REVIEWER_ROLE_ID = process.env.APP_REVIEWER_ROLE_ID;
 const PARTICIPANT_ROLE_ID  = process.env.PARTICIPANT_ROLE_ID;
 const GUILD_ID             = process.env.DISCORD_GUILD_ID;
 const BOT_TOKEN            = process.env.BOT_TOKEN;
+const UNIFIED_EVENTS_URL   = process.env.UNIFIED_EVENTS_URL;
+const INTERNAL_SECRET      = process.env.INTERNAL_SECRET;
 
-/* ---- Middleware: must be logged in ---- */
+/* ---- Send notification to Unified Events dashboard ---- */
+async function sendUnifiedEventsNotification(userId, title, description) {
+  if (!UNIFIED_EVENTS_URL || !INTERNAL_SECRET) return;
+  try {
+    await fetch(`${UNIFIED_EVENTS_URL}/api/notifications/internal`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-internal-secret": INTERNAL_SECRET,
+      },
+      body: JSON.stringify({ userId, title, description }),
+    });
+  } catch (err) {
+    console.error("[sendUnifiedEventsNotification] failed:", err.message);
+  }
+}
+
+/* ---- Must be logged in ---- */
 function requireAuth(req, res, next) {
   if (!req.session.user) {
     return res.status(401).json({ success: false, message: "Not logged in." });
@@ -16,7 +34,7 @@ function requireAuth(req, res, next) {
   next();
 }
 
-/* ---- Middleware: must have App Reviewer role ---- */
+/* ---- Must have App Reviewer role ---- */
 async function requireReviewer(req, res, next) {
   if (!req.session.user) {
     return res.status(401).json({ success: false, message: "Not logged in." });
@@ -46,8 +64,7 @@ async function requireReviewer(req, res, next) {
   }
 }
 
-/* ---- GET /api/applications/me ----
-   Check if the logged-in user already has an application */
+/* ---- GET /api/applications/me ---- */
 router.get("/me", requireAuth, async (req, res) => {
   try {
     const app = await Application.findOne({ discordId: req.session.user.id });
@@ -58,8 +75,7 @@ router.get("/me", requireAuth, async (req, res) => {
   }
 });
 
-/* ---- GET /api/applications ----
-   Staff only — returns all applications */
+/* ---- GET /api/applications — staff only ---- */
 router.get("/", requireReviewer, async (req, res) => {
   try {
     const { status } = req.query;
@@ -72,8 +88,7 @@ router.get("/", requireReviewer, async (req, res) => {
   }
 });
 
-/* ---- PATCH /api/applications/:id ----
-   Staff only — accept or reject an application */
+/* ---- PATCH /api/applications/:id — staff only ---- */
 router.patch("/:id", requireReviewer, async (req, res) => {
   const { status, reviewNote } = req.body;
 
@@ -94,78 +109,74 @@ router.patch("/:id", requireReviewer, async (req, res) => {
     app.reviewNote = reviewNote || "";
     await app.save();
 
-    // If accepted — assign role + DM the user via bot
     if (status === "accepted") {
+      // Assign Season 1 Participant role
       try {
-        // Assign the Participant role
         await fetch(
           `https://discord.com/api/guilds/${GUILD_ID}/members/${app.discordId}/roles/${PARTICIPANT_ROLE_ID}`,
           { method: "PUT", headers: { Authorization: `Bot ${BOT_TOKEN}` } }
         );
+      } catch (err) {
+        console.error("[role assign failed]", err);
+      }
 
-        // DM the user
-        const dmChannelRes = await fetch(
-          `https://discord.com/api/users/@me/channels`,
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bot ${BOT_TOKEN}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ recipient_id: app.discordId }),
-          }
-        );
+      // DM the user
+      try {
+        const dmChannelRes = await fetch("https://discord.com/api/users/@me/channels", {
+          method: "POST",
+          headers: { Authorization: `Bot ${BOT_TOKEN}`, "Content-Type": "application/json" },
+          body: JSON.stringify({ recipient_id: app.discordId }),
+        });
         const dmChannel = await dmChannelRes.json();
-
         if (dmChannel.id) {
           await fetch(`https://discord.com/api/channels/${dmChannel.id}/messages`, {
             method: "POST",
-            headers: {
-              Authorization: `Bot ${BOT_TOKEN}`,
-              "Content-Type": "application/json",
-            },
+            headers: { Authorization: `Bot ${BOT_TOKEN}`, "Content-Type": "application/json" },
             body: JSON.stringify({
               content: `🎉 **Your application has been accepted!**\n\nWelcome to Season 1 — you've been given the Season 1 Participant role. See you in the server!${reviewNote ? `\n\nNote from staff: ${reviewNote}` : ""}`,
             }),
           });
         }
       } catch (err) {
-        console.error("[role/dm assign failed]", err);
-        // Don't fail the whole request — application is still marked accepted
+        console.error("[accepted dm failed]", err);
       }
+
+      // Notify Unified Events dashboard
+      await sendUnifiedEventsNotification(
+        app.discordId,
+        "Your application was accepted! 🎉",
+        `Welcome to Season 1 — you've been given the Season 1 Participant role.${reviewNote ? ` Note from staff: ${reviewNote}` : ""}`
+      );
     }
 
-    // If rejected — DM the user
     if (status === "rejected") {
+      // DM the user
       try {
-        const dmChannelRes = await fetch(
-          `https://discord.com/api/users/@me/channels`,
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bot ${BOT_TOKEN}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ recipient_id: app.discordId }),
-          }
-        );
+        const dmChannelRes = await fetch("https://discord.com/api/users/@me/channels", {
+          method: "POST",
+          headers: { Authorization: `Bot ${BOT_TOKEN}`, "Content-Type": "application/json" },
+          body: JSON.stringify({ recipient_id: app.discordId }),
+        });
         const dmChannel = await dmChannelRes.json();
-
         if (dmChannel.id) {
           await fetch(`https://discord.com/api/channels/${dmChannel.id}/messages`, {
             method: "POST",
-            headers: {
-              Authorization: `Bot ${BOT_TOKEN}`,
-              "Content-Type": "application/json",
-            },
+            headers: { Authorization: `Bot ${BOT_TOKEN}`, "Content-Type": "application/json" },
             body: JSON.stringify({
               content: `Your application was reviewed and unfortunately wasn't successful this time.${reviewNote ? `\n\nNote from staff: ${reviewNote}` : ""}\n\nYou're welcome to apply again when applications reopen.`,
             }),
           });
         }
       } catch (err) {
-        console.error("[rejection dm failed]", err);
+        console.error("[rejected dm failed]", err);
       }
+
+      // Notify Unified Events dashboard
+      await sendUnifiedEventsNotification(
+        app.discordId,
+        "Application update",
+        `Your application wasn't successful this time.${reviewNote ? ` Note from staff: ${reviewNote}` : ""} You're welcome to apply again when applications reopen.`
+      );
     }
 
     return res.json({ success: true, application: app });

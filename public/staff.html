@@ -9,43 +9,23 @@
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --void:#0a0d14;
-  --void-soft:#11151f;
-  --panel:#141925;
-  --panel-raised:#181e2c;
-  --line:rgba(255,255,255,0.09);
-  --line-soft:rgba(255,255,255,0.05);
-  --ink:#edeff5;
-  --mist:#8b92a6;
-  --mist-dim:#5b6175;
-  --blue:#4169ff;
-  --red:#ff3b4e;
-  --green:#3ddc8a;
-  --radius:7px;
-  --radius-lg:10px;
+  --void:#0a0d14;--void-soft:#11151f;--panel:#141925;--panel-raised:#181e2c;
+  --line:rgba(255,255,255,0.09);--line-soft:rgba(255,255,255,0.05);
+  --ink:#edeff5;--mist:#8b92a6;--mist-dim:#5b6175;
+  --blue:#4169ff;--red:#ff3b4e;--green:#3ddc8a;--amber:#ffb13b;
+  --radius:7px;--radius-lg:10px;
   --font-display:'Big Shoulders Display',sans-serif;
   --font-body:'IBM Plex Sans',sans-serif;
   --font-mono:'IBM Plex Mono',monospace;
   --container:1180px;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{
-  background:var(--void);color:var(--ink);
-  font-family:var(--font-body);line-height:1.55;
-  -webkit-font-smoothing:antialiased;
-  min-height:100vh;display:flex;flex-direction:column;
-}
+body{background:var(--void);color:var(--ink);font-family:var(--font-body);line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column;}
 a{color:inherit;text-decoration:none;}
 button{font-family:inherit;cursor:pointer;}
 .wrap{max-width:var(--container);margin:0 auto;padding-inline:clamp(20px,5vw,56px);}
 
-.btn{
-  display:inline-flex;align-items:center;gap:0.5rem;
-  font-family:var(--font-body);font-weight:600;font-size:0.88rem;
-  padding:0.6rem 1.2rem;border-radius:var(--radius);border:1px solid transparent;
-  transition:transform 0.15s ease,box-shadow 0.15s ease,border-color 0.15s ease,background 0.15s ease;
-  white-space:nowrap;
-}
+.btn{display:inline-flex;align-items:center;gap:0.5rem;font-family:var(--font-body);font-weight:600;font-size:0.88rem;padding:0.6rem 1.2rem;border-radius:var(--radius);border:1px solid transparent;transition:transform 0.15s ease,background 0.15s ease,border-color 0.15s ease;white-space:nowrap;}
 .btn-primary{background:linear-gradient(115deg,var(--blue),var(--red));color:#fff;}
 .btn-primary:hover{transform:translateY(-1px);}
 .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line);}
@@ -54,170 +34,128 @@ button{font-family:inherit;cursor:pointer;}
 .btn-accept:hover{background:rgba(61,220,138,0.25);}
 .btn-reject{background:rgba(255,59,78,0.12);color:var(--red);border-color:rgba(255,59,78,0.3);}
 .btn-reject:hover{background:rgba(255,59,78,0.22);}
-.btn-sm{padding:0.42rem 0.85rem;font-size:0.8rem;}
+.btn-amber{background:rgba(255,177,59,0.12);color:var(--amber);border-color:rgba(255,177,59,0.3);}
+.btn-amber:hover{background:rgba(255,177,59,0.22);}
+.btn-sm{padding:0.38rem 0.8rem;font-size:0.78rem;}
 .btn:disabled{opacity:0.4;pointer-events:none;}
 
-/* NAV */
-.nav{
-  position:sticky;top:0;z-index:60;
-  background:rgba(10,13,20,0.78);backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--line-soft);
-}
+.nav{position:sticky;top:0;z-index:60;background:rgba(10,13,20,0.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line-soft);}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;height:72px;}
 .brand{display:flex;align-items:center;gap:0.65rem;font-family:var(--font-display);font-weight:700;font-size:1.1rem;}
 .brand-mark{width:28px;height:28px;flex-shrink:0;}
 .nav-right{display:flex;align-items:center;gap:0.8rem;}
-.auth-chip{
-  display:flex;align-items:center;gap:0.5rem;
-  font-family:var(--font-mono);font-size:0.76rem;color:var(--mist);
-  border:1px solid var(--line);border-radius:99px;padding:0.3rem 0.8rem 0.3rem 0.35rem;
-}
-.auth-chip .av{
-  width:22px;height:22px;border-radius:50%;overflow:hidden;flex-shrink:0;
-  background:linear-gradient(135deg,var(--blue),var(--red));
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-display);font-size:0.65rem;color:#fff;
-}
+.auth-chip{display:flex;align-items:center;gap:0.5rem;font-family:var(--font-mono);font-size:0.76rem;color:var(--mist);border:1px solid var(--line);border-radius:99px;padding:0.3rem 0.8rem 0.3rem 0.35rem;}
+.auth-chip .av{width:22px;height:22px;border-radius:50%;overflow:hidden;flex-shrink:0;background:linear-gradient(135deg,var(--blue),var(--red));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:0.65rem;color:#fff;}
 .auth-chip .av img{width:100%;height:100%;object-fit:cover;}
 
-/* PAGE */
 main{flex:1;padding-top:clamp(40px,6vw,64px);padding-bottom:clamp(48px,8vw,96px);}
 
-.page-head{margin-bottom:2.4rem;}
-.page-head h1{
-  font-family:var(--font-display);font-weight:800;
-  font-size:clamp(2rem,4vw,3rem);text-transform:uppercase;
-  margin-top:0.5rem;
+.page-head{margin-bottom:2rem;}
+.page-head h1{font-family:var(--font-display);font-weight:800;font-size:clamp(2rem,4vw,3rem);text-transform:uppercase;margin-top:0.5rem;}
+.page-head p{color:var(--mist);margin-top:0.6rem;font-size:0.95rem;max-width:600px;}
+
+/* PAGE TABS */
+.page-tabs{display:flex;gap:0.6rem;margin-bottom:2rem;border-bottom:1px solid var(--line-soft);padding-bottom:0;}
+.page-tab{
+  background:transparent;border:none;color:var(--mist);
+  font-family:var(--font-mono);font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;
+  padding:0.7rem 1.1rem;border-bottom:2px solid transparent;margin-bottom:-1px;
+  transition:color 0.15s ease,border-color 0.15s ease;
 }
-.page-head p{color:var(--mist);margin-top:0.6rem;font-size:0.95rem;}
+.page-tab:hover{color:var(--ink);}
+.page-tab.active{color:var(--ink);border-bottom-color:var(--blue);}
 
 /* FILTER TABS */
-.filter-row{display:flex;gap:0.55rem;margin-bottom:1.8rem;flex-wrap:wrap;}
-.tab{
-  background:transparent;border:1px solid var(--line);color:var(--mist);
-  padding:0.5rem 1.1rem;border-radius:99px;
-  font-family:var(--font-mono);font-size:0.74rem;letter-spacing:0.05em;text-transform:uppercase;
-  transition:color 0.15s ease,border-color 0.15s ease,background 0.15s ease;
-}
+.filter-row{display:flex;gap:0.55rem;margin-bottom:1.8rem;flex-wrap:wrap;align-items:center;justify-content:space-between;}
+.filter-tabs{display:flex;gap:0.55rem;flex-wrap:wrap;}
+.tab{background:transparent;border:1px solid var(--line);color:var(--mist);padding:0.5rem 1.1rem;border-radius:99px;font-family:var(--font-mono);font-size:0.74rem;letter-spacing:0.05em;text-transform:uppercase;transition:color 0.15s ease,border-color 0.15s ease,background 0.15s ease;}
 .tab:hover{border-color:rgba(255,255,255,0.3);color:var(--ink);}
 .tab.active{background:linear-gradient(115deg,var(--blue),var(--red));color:#fff;border-color:transparent;}
 
-/* STATS ROW */
-.stats-row{
-  display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap;
-}
-.stat-pill{
-  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-lg);
-  padding:0.8rem 1.2rem;display:flex;flex-direction:column;gap:0.2rem;min-width:110px;
-}
+/* STATS */
+.stats-row{display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap;}
+.stat-pill{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-lg);padding:0.8rem 1.2rem;display:flex;flex-direction:column;gap:0.2rem;min-width:110px;}
 .stat-pill strong{font-family:var(--font-display);font-size:1.6rem;font-weight:700;}
 .stat-pill span{font-family:var(--font-mono);font-size:0.66rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--mist-dim);}
 
-/* APPLICATION CARDS */
-.apps-grid{display:flex;flex-direction:column;gap:0.9rem;}
+/* OWNER PANEL */
+.owner-panel{background:rgba(255,177,59,0.06);border:1px solid rgba(255,177,59,0.25);border-radius:var(--radius-lg);padding:1.2rem 1.4rem;margin-bottom:2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+.owner-panel-text h3{font-family:var(--font-display);font-weight:700;font-size:1.05rem;color:var(--amber);}
+.owner-panel-text p{font-size:0.85rem;color:var(--mist);margin-top:0.2rem;}
 
-.app-card{
-  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-lg);
-  padding:1.4rem 1.5rem;
-  display:grid;grid-template-columns:auto 1fr auto;
-  gap:1rem;align-items:start;
-}
-.app-avatar{
-  width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0;
-  background:linear-gradient(135deg,var(--blue),var(--red));
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-display);font-weight:700;font-size:1rem;color:#fff;
-}
+/* APP CARDS */
+.apps-grid{display:flex;flex-direction:column;gap:0.9rem;}
+.app-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-lg);padding:1.4rem 1.5rem;display:grid;grid-template-columns:auto 1fr auto;gap:1rem;align-items:start;}
+.app-card.is-blocked{border-color:rgba(255,59,78,0.25);background:rgba(255,59,78,0.04);}
+.app-card.is-attempt-2{border-color:rgba(255,177,59,0.25);}
+.app-avatar{width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0;background:linear-gradient(135deg,var(--blue),var(--red));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:1rem;color:#fff;}
 .app-avatar img{width:100%;height:100%;object-fit:cover;}
-.app-body{}
 .app-username{font-weight:700;font-size:1rem;margin-bottom:0.25rem;}
 .app-meta{font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.03em;color:var(--mist-dim);}
-.app-status{
-  font-family:var(--font-mono);font-size:0.66rem;letter-spacing:0.08em;text-transform:uppercase;
-  padding:0.28rem 0.7rem;border-radius:99px;border:1px solid var(--line);
-  align-self:flex-start;
-}
+.app-badge{display:inline-flex;align-items:center;gap:0.3rem;font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.06em;text-transform:uppercase;padding:0.18rem 0.55rem;border-radius:99px;border:1px solid var(--line);margin-left:0.5rem;vertical-align:middle;}
+.app-badge.attempt-2{color:var(--amber);border-color:rgba(255,177,59,0.35);background:rgba(255,177,59,0.08);}
+.app-badge.blocked{color:var(--red);border-color:rgba(255,59,78,0.35);background:rgba(255,59,78,0.08);}
+.app-badge.reapply{color:var(--green);border-color:rgba(61,220,138,0.35);background:rgba(61,220,138,0.08);}
+.app-status{font-family:var(--font-mono);font-size:0.66rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.28rem 0.7rem;border-radius:99px;border:1px solid var(--line);align-self:flex-start;}
 .app-status.pending{color:var(--blue);border-color:rgba(65,105,255,0.35);background:rgba(65,105,255,0.08);}
 .app-status.accepted{color:var(--green);border-color:rgba(61,220,138,0.35);background:rgba(61,220,138,0.08);}
 .app-status.rejected{color:var(--red);border-color:rgba(255,59,78,0.35);background:rgba(255,59,78,0.08);}
+.app-actions{display:flex;gap:0.5rem;margin-top:0.9rem;align-items:center;flex-wrap:wrap;}
+.review-note{margin-top:0.6rem;background:var(--void-soft);border:1px solid var(--line-soft);border-radius:var(--radius);padding:0.6rem 0.8rem;font-size:0.82rem;color:var(--mist);font-style:italic;}
+.reversal-note{margin-top:0.4rem;background:rgba(255,177,59,0.06);border:1px solid rgba(255,177,59,0.2);border-radius:var(--radius);padding:0.5rem 0.8rem;font-size:0.78rem;color:var(--amber);}
 
-.app-actions{
-  display:flex;gap:0.5rem;margin-top:0.9rem;align-items:center;flex-wrap:wrap;
-}
-
-.review-note{
-  margin-top:0.6rem;
-  background:var(--void-soft);border:1px solid var(--line-soft);border-radius:var(--radius);
-  padding:0.6rem 0.8rem;
-  font-size:0.82rem;color:var(--mist);font-style:italic;
-}
+/* LOGS */
+.logs-grid{display:flex;flex-direction:column;gap:0.7rem;}
+.log-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-lg);padding:1.2rem 1.4rem;}
+.log-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:0.7rem;}
+.log-username{font-weight:700;font-size:0.95rem;}
+.log-attempt{font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--mist-dim);margin-top:0.15rem;}
+.log-timeline{display:flex;flex-direction:column;gap:0.5rem;}
+.log-entry{display:flex;align-items:flex-start;gap:0.7rem;font-size:0.84rem;}
+.log-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.log-dot.accepted{background:var(--green);}
+.log-dot.rejected{background:var(--red);}
+.log-dot.reversed{background:var(--amber);}
+.log-dot.reapply{background:var(--blue);}
+.log-dot.submitted{background:var(--mist-dim);}
+.log-entry-body{}
+.log-entry-action{font-weight:600;}
+.log-entry-meta{font-family:var(--font-mono);font-size:0.68rem;color:var(--mist-dim);margin-top:0.1rem;}
 
 /* EMPTY / LOADING */
-.state-box{
-  padding:4rem 1rem;text-align:center;
-  display:flex;flex-direction:column;align-items:center;gap:0.7rem;
-}
+.state-box{padding:4rem 1rem;text-align:center;display:flex;flex-direction:column;align-items:center;gap:0.7rem;}
 .state-box h3{font-family:var(--font-display);font-weight:700;font-size:1.2rem;}
 .state-box p{color:var(--mist);font-size:0.9rem;max-width:340px;}
-.spinner{
-  width:28px;height:28px;border-radius:50%;
-  border:2.5px solid var(--line);border-top-color:var(--blue);
-  animation:spin 0.8s linear infinite;
-}
+.spinner{width:28px;height:28px;border-radius:50%;border:2.5px solid var(--line);border-top-color:var(--blue);animation:spin 0.8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
-/* ACCESS DENIED */
-.access-denied{
-  flex:1;display:flex;align-items:center;justify-content:center;
-  flex-direction:column;gap:1rem;text-align:center;padding:3rem 1rem;
-}
+.access-denied{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;text-align:center;padding:3rem 1rem;}
 .access-denied h2{font-family:var(--font-display);font-weight:700;font-size:1.8rem;}
 .access-denied p{color:var(--mist);max-width:380px;}
 
 /* MODAL */
-.modal-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:100;
-  display:flex;align-items:center;justify-content:center;padding:1rem;
-  opacity:0;pointer-events:none;transition:opacity 0.2s ease;
-}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:100;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity 0.2s ease;}
 .modal-overlay.open{opacity:1;pointer-events:all;}
-.modal{
-  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-lg);
-  padding:1.8rem;width:100%;max-width:480px;
-  transform:translateY(12px);transition:transform 0.2s ease;
-}
+.modal{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-lg);padding:1.8rem;width:100%;max-width:480px;transform:translateY(12px);transition:transform 0.2s ease;}
 .modal-overlay.open .modal{transform:translateY(0);}
 .modal h3{font-family:var(--font-display);font-weight:700;font-size:1.3rem;margin-bottom:0.4rem;}
 .modal p{color:var(--mist);font-size:0.88rem;margin-bottom:1.2rem;}
-.modal textarea{
-  width:100%;background:var(--void-soft);border:1px solid var(--line);
-  border-radius:var(--radius);padding:0.75rem 0.9rem;
-  font-family:var(--font-body);font-size:0.9rem;color:var(--ink);
-  resize:vertical;min-height:90px;margin-bottom:1.2rem;
-}
+.modal textarea{width:100%;background:var(--void-soft);border:1px solid var(--line);border-radius:var(--radius);padding:0.75rem 0.9rem;font-family:var(--font-body);font-size:0.9rem;color:var(--ink);resize:vertical;min-height:80px;margin-bottom:1rem;}
 .modal textarea:focus{outline:none;border-color:rgba(65,105,255,0.5);}
 .modal textarea::placeholder{color:var(--mist-dim);}
-.modal-actions{display:flex;gap:0.7rem;justify-content:flex-end;}
+.modal-actions{display:flex;gap:0.7rem;justify-content:flex-end;flex-wrap:wrap;}
+
+/* reapply sub-modal */
+.reapply-prompt{background:var(--void-soft);border:1px solid rgba(61,220,138,0.25);border-radius:var(--radius);padding:1rem;margin-bottom:1rem;}
+.reapply-prompt p{font-size:0.88rem;color:var(--mist);margin-bottom:0.8rem;}
+.reapply-prompt .reapply-actions{display:flex;gap:0.6rem;}
 
 /* TOAST */
-.toast{
-  position:fixed;bottom:2rem;left:50%;
-  transform:translateX(-50%) translateY(20px);
-  background:var(--panel-raised);border:1px solid rgba(65,105,255,0.4);
-  border-radius:99px;padding:0.75rem 1.5rem;
-  font-family:var(--font-mono);font-size:0.8rem;color:var(--ink);
-  display:flex;align-items:center;gap:0.6rem;
-  box-shadow:0 12px 36px -8px rgba(0,0,0,0.6);
-  opacity:0;transition:opacity 0.25s ease,transform 0.25s ease;
-  pointer-events:none;z-index:200;
-}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--panel-raised);border:1px solid rgba(65,105,255,0.4);border-radius:99px;padding:0.75rem 1.5rem;font-family:var(--font-mono);font-size:0.8rem;color:var(--ink);display:flex;align-items:center;gap:0.6rem;box-shadow:0 12px 36px -8px rgba(0,0,0,0.6);opacity:0;transition:opacity 0.25s ease,transform 0.25s ease;pointer-events:none;z-index:200;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .toast-dot{width:7px;height:7px;border-radius:50%;background:var(--blue);flex-shrink:0;}
 
-@media(max-width:640px){
-  .app-card{grid-template-columns:auto 1fr;}.app-status{grid-column:span 2;}
-  .stats-row{gap:0.6rem;}
-}
+@media(max-width:640px){.app-card{grid-template-columns:auto 1fr;}.app-status{grid-column:span 2;}.stats-row{gap:0.6rem;}}
 </style>
 </head>
 <body>
@@ -241,52 +179,85 @@ main{flex:1;padding-top:clamp(40px,6vw,64px);padding-bottom:clamp(48px,8vw,96px)
   </div>
 </header>
 
-<!-- Access denied state (shown if not a reviewer) -->
 <div class="access-denied" id="accessDenied" style="display:none;">
   <h2>Access Denied</h2>
-  <p>You need the Application Reviewer role to access this page. If you think this is a mistake, contact a senior staff member.</p>
+  <p>You need the Application Reviewer role to access this page.</p>
   <a href="/" class="btn btn-ghost">Go back</a>
 </div>
 
-<!-- Main staff panel -->
 <main id="staffPanel" style="display:none;">
   <div class="wrap">
 
     <div class="page-head">
       <span style="font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--blue);">Staff Panel</span>
       <h1>Applications</h1>
-      <p>Review, accept, or reject applicants. Accepted users are automatically assigned the Season 1 Participant role and notified via DM.</p>
+      <p>Review applications, manage reapply permissions, and track the full history of every applicant.</p>
     </div>
 
-    <div class="stats-row" id="statsRow">
-      <div class="stat-pill"><strong id="statTotal">—</strong><span>Total</span></div>
-      <div class="stat-pill"><strong id="statPending">—</strong><span>Pending</span></div>
-      <div class="stat-pill"><strong id="statAccepted">—</strong><span>Accepted</span></div>
-      <div class="stat-pill"><strong id="statRejected">—</strong><span>Rejected</span></div>
+    <!-- Owner panel — only shown to owners -->
+    <div class="owner-panel" id="ownerPanel" style="display:none;">
+      <div class="owner-panel-text">
+        <h3>⚡ Owner Controls</h3>
+        <p>Reset all blocked users to allow applications for a new season. This cannot be undone.</p>
+      </div>
+      <button class="btn btn-amber" id="resetSeasonBtn">Reset Season</button>
     </div>
 
-    <div class="filter-row">
-      <button class="tab active" data-filter="all">All</button>
-      <button class="tab" data-filter="pending">Pending</button>
-      <button class="tab" data-filter="accepted">Accepted</button>
-      <button class="tab" data-filter="rejected">Rejected</button>
+    <!-- Page tabs -->
+    <div class="page-tabs">
+      <button class="page-tab active" data-tab="applications">Applications</button>
+      <button class="page-tab" data-tab="logs">Logs</button>
     </div>
 
-    <div class="apps-grid" id="appsGrid">
-      <div class="state-box">
-        <div class="spinner"></div>
-        <p>Loading applications…</p>
+    <!-- APPLICATIONS TAB -->
+    <div id="tabApplications">
+      <div class="stats-row" id="statsRow">
+        <div class="stat-pill"><strong id="statTotal">—</strong><span>Total</span></div>
+        <div class="stat-pill"><strong id="statPending">—</strong><span>Pending</span></div>
+        <div class="stat-pill"><strong id="statAccepted">—</strong><span>Accepted</span></div>
+        <div class="stat-pill"><strong id="statRejected">—</strong><span>Rejected</span></div>
+        <div class="stat-pill"><strong id="statBlocked">—</strong><span>Blocked</span></div>
+      </div>
+
+      <div class="filter-row">
+        <div class="filter-tabs">
+          <button class="tab active" data-filter="all">All</button>
+          <button class="tab" data-filter="pending">Pending</button>
+          <button class="tab" data-filter="accepted">Accepted</button>
+          <button class="tab" data-filter="rejected">Rejected</button>
+        </div>
+      </div>
+
+      <div class="apps-grid" id="appsGrid">
+        <div class="state-box"><div class="spinner"></div><p>Loading applications…</p></div>
+      </div>
+    </div>
+
+    <!-- LOGS TAB -->
+    <div id="tabLogs" style="display:none;">
+      <div class="logs-grid" id="logsGrid">
+        <div class="state-box"><div class="spinner"></div><p>Loading logs…</p></div>
       </div>
     </div>
 
   </div>
 </main>
 
-<!-- Review modal -->
+<!-- Main action modal -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <h3 id="modalTitle">Review Application</h3>
-    <p id="modalDesc">Add an optional note — this will be included in the DM sent to the applicant.</p>
+    <p id="modalDesc"></p>
+
+    <!-- Reapply prompt — shown inside modal after rejection -->
+    <div class="reapply-prompt" id="reapplyPrompt" style="display:none;">
+      <p>Allow this user to submit a second application?</p>
+      <div class="reapply-actions">
+        <button class="btn btn-accept btn-sm" id="reapplyYes">Yes — grant reapply</button>
+        <button class="btn btn-ghost btn-sm" id="reapplyNo">No — keep denied</button>
+      </div>
+    </div>
+
     <textarea id="modalNote" placeholder="Optional note to the applicant…"></textarea>
     <div class="modal-actions">
       <button class="btn btn-ghost" id="modalCancel">Cancel</button>
@@ -295,33 +266,50 @@ main{flex:1;padding-top:clamp(40px,6vw,64px);padding-bottom:clamp(48px,8vw,96px)
   </div>
 </div>
 
+<!-- Reset season confirmation modal -->
+<div class="modal-overlay" id="resetModal">
+  <div class="modal">
+    <h3>Reset Season</h3>
+    <p>This will unblock all users who were denied twice, allowing them to apply again. This is intended for new season openings and cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="resetCancel">Cancel</button>
+      <button class="btn btn-amber" id="resetConfirm">Yes, reset season</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"><span class="toast-dot"></span><span id="toastMsg"></span></div>
 
 <script>
 let allApplications = [];
-let currentFilter = "all";
-let pendingAction = null; // { id, status }
+let currentFilter   = "all";
+let currentTab      = "applications";
+let pendingAction   = null;
+let isOwner         = false;
 
-/* ---- AUTH CHECK ---- */
+/* ---- INIT ---- */
 async function init() {
   const res = await fetch("/auth/me").catch(() => null);
   if (!res || !res.ok) return showAccessDenied();
   const data = await res.json();
   if (!data.user) return showAccessDenied();
 
-  // Render auth chip
-  const chip = document.getElementById("authChip");
-  const avatarEl = document.getElementById("authAvatar");
+  const avatarEl   = document.getElementById("authAvatar");
   const usernameEl = document.getElementById("authUsername");
   usernameEl.textContent = data.user.username;
-  if (data.user.avatar) {
-    avatarEl.innerHTML = `<img src="${data.user.avatar}" alt="">`;
-  } else {
-    avatarEl.textContent = data.user.username.slice(0, 2).toUpperCase();
-  }
-  chip.style.display = "flex";
+  avatarEl.innerHTML = data.user.avatar
+    ? `<img src="${data.user.avatar}" alt="">`
+    : escHtml(data.user.username.slice(0,2).toUpperCase());
+  document.getElementById("authChip").style.display = "flex";
 
-  // Try loading applications — 403 means not a reviewer
+  // Check owner
+  const ownerRes = await fetch("/api/applications/me/is-owner").catch(() => null);
+  if (ownerRes && ownerRes.ok) {
+    const ownerData = await ownerRes.json();
+    isOwner = ownerData.isOwner;
+    if (isOwner) document.getElementById("ownerPanel").style.display = "flex";
+  }
+
   await loadApplications();
 }
 
@@ -332,91 +320,200 @@ function showAccessDenied() {
 /* ---- LOAD APPLICATIONS ---- */
 async function loadApplications() {
   const res = await fetch("/api/applications").catch(() => null);
-
-  if (!res) {
-    document.getElementById("staffPanel").style.display = "block";
-    showGridError("Couldn't reach the server.");
-    return;
-  }
-
-  if (res.status === 401 || res.status === 403) {
-    return showAccessDenied();
-  }
-
+  if (!res) { document.getElementById("staffPanel").style.display = "block"; showGridError("Couldn't reach the server."); return; }
+  if (res.status === 401 || res.status === 403) return showAccessDenied();
   document.getElementById("staffPanel").style.display = "block";
-
   const data = await res.json();
   if (!data.success) { showGridError(data.message); return; }
-
   allApplications = data.applications || [];
   updateStats();
   renderGrid();
+  if (currentTab === "logs") renderLogs();
 }
 
 function updateStats() {
-  const total    = allApplications.length;
-  const pending  = allApplications.filter(a => a.status === "pending").length;
-  const accepted = allApplications.filter(a => a.status === "accepted").length;
-  const rejected = allApplications.filter(a => a.status === "rejected").length;
-  document.getElementById("statTotal").textContent    = total;
-  document.getElementById("statPending").textContent  = pending;
-  document.getElementById("statAccepted").textContent = accepted;
-  document.getElementById("statRejected").textContent = rejected;
+  document.getElementById("statTotal").textContent    = allApplications.length;
+  document.getElementById("statPending").textContent  = allApplications.filter(a => a.status === "pending").length;
+  document.getElementById("statAccepted").textContent = allApplications.filter(a => a.status === "accepted").length;
+  document.getElementById("statRejected").textContent = allApplications.filter(a => a.status === "rejected").length;
+  document.getElementById("statBlocked").textContent  = allApplications.filter(a => a.blocked).length;
 }
 
+/* ---- RENDER APPLICATIONS ---- */
 function renderGrid() {
   const grid = document.getElementById("appsGrid");
-  const items = currentFilter === "all"
-    ? allApplications
-    : allApplications.filter(a => a.status === currentFilter);
+  const items = currentFilter === "all" ? allApplications : allApplications.filter(a => a.status === currentFilter);
 
   if (items.length === 0) {
-    grid.innerHTML = `<div class="state-box">
-      <h3>No applications</h3>
-      <p>${currentFilter === "all" ? "No applications have been submitted yet." : `No ${currentFilter} applications.`}</p>
-    </div>`;
+    grid.innerHTML = `<div class="state-box"><h3>No applications</h3><p>${currentFilter === "all" ? "None submitted yet." : `No ${currentFilter} applications.`}</p></div>`;
     return;
   }
 
   grid.innerHTML = items.map(app => {
     const date = new Date(app.createdAt).toLocaleDateString("en-GB", { day:"numeric", month:"short", year:"numeric" });
-    const avatarHtml = app.discordAvatar
-      ? `<img src="${escHtml(app.discordAvatar)}" alt="">`
-      : escHtml(app.discordUsername.slice(0,2).toUpperCase());
+    const avatarHtml = app.discordAvatar ? `<img src="${escHtml(app.discordAvatar)}" alt="">` : escHtml(app.discordUsername.slice(0,2).toUpperCase());
 
-    const reviewInfo = app.status !== "pending"
-      ? `<div class="review-note">Reviewed by ${escHtml(app.reviewedBy || "staff")}${app.reviewNote ? ` — "${escHtml(app.reviewNote)}"` : ""}</div>`
+    const badges = [
+      app.attemptNumber === 2 ? `<span class="app-badge attempt-2">2nd attempt</span>` : "",
+      app.blocked ? `<span class="app-badge blocked">blocked</span>` : "",
+      app.canReapply ? `<span class="app-badge reapply">reapply granted</span>` : "",
+    ].join("");
+
+    const reviewInfo = app.status !== "pending" && app.reviewedBy
+      ? `<div class="review-note">Reviewed by ${escHtml(app.reviewedBy)}${app.reviewNote ? ` — "${escHtml(app.reviewNote)}"` : ""}</div>`
       : "";
 
-    const actions = app.status === "pending"
-      ? `<div class="app-actions">
+    const reversalInfo = app.reversedBy
+      ? `<div class="reversal-note">⚠️ Reversed by ${escHtml(app.reversedBy)}${app.reversalNote ? ` — "${escHtml(app.reversalNote)}"` : ""}</div>`
+      : "";
+
+    let actions = "";
+    if (app.status === "pending") {
+      actions = `
+        <div class="app-actions">
           <button class="btn btn-accept btn-sm" onclick="openModal('${app._id}','accepted')">✓ Accept</button>
           <button class="btn btn-reject btn-sm" onclick="openModal('${app._id}','rejected')">✕ Reject</button>
-        </div>`
-      : "";
+        </div>`;
+    } else {
+      const reverseBtn = `<button class="btn btn-amber btn-sm" onclick="openModal('${app._id}','reverse')">↩ Reverse decision</button>`;
+      const reapplyBtn = app.status === "rejected" && !app.canReapply && app.attemptNumber < 2 && !app.blocked
+        ? `<button class="btn btn-ghost btn-sm" onclick="openModal('${app._id}','grant-reapply')">Allow reapply</button>`
+        : "";
+      const revokeBtn = app.canReapply
+        ? `<button class="btn btn-ghost btn-sm" onclick="openModal('${app._id}','revoke-reapply')">Revoke reapply</button>`
+        : "";
+      actions = `<div class="app-actions">${reverseBtn}${reapplyBtn}${revokeBtn}</div>`;
+    }
+
+    const cardClass = `app-card${app.blocked ? " is-blocked" : ""}${app.attemptNumber === 2 ? " is-attempt-2" : ""}`;
 
     return `
-      <div class="app-card" id="card-${app._id}">
+      <div class="${cardClass}" id="card-${app._id}">
         <div class="app-avatar">${avatarHtml}</div>
         <div class="app-body">
-          <div class="app-username">${escHtml(app.discordUsername)}</div>
-          <div class="app-meta">Discord ID: ${escHtml(app.discordId)} · Submitted ${date}</div>
-          ${reviewInfo}
-          ${actions}
+          <div class="app-username">${escHtml(app.discordUsername)}${badges}</div>
+          <div class="app-meta">ID: ${escHtml(app.discordId)} · ${date}</div>
+          ${reviewInfo}${reversalInfo}${actions}
         </div>
         <span class="app-status ${app.status}">${app.status}</span>
       </div>`;
   }).join("");
 }
 
-function showGridError(msg) {
-  document.getElementById("appsGrid").innerHTML = `<div class="state-box"><h3>Error</h3><p>${escHtml(msg)}</p></div>`;
+/* ---- RENDER LOGS ---- */
+async function renderLogs() {
+  const grid = document.getElementById("logsGrid");
+  grid.innerHTML = `<div class="state-box"><div class="spinner"></div><p>Loading…</p></div>`;
+
+  // Group applications by discordId
+  const byUser = {};
+  allApplications.forEach(app => {
+    if (!byUser[app.discordId]) byUser[app.discordId] = [];
+    byUser[app.discordId].push(app);
+  });
+
+  const users = Object.values(byUser);
+  if (users.length === 0) {
+    grid.innerHTML = `<div class="state-box"><h3>No logs yet</h3><p>Activity will appear here once applications are submitted.</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = users.map(apps => {
+    const latest = apps[apps.length - 1];
+    const avatarHtml = latest.discordAvatar ? `<img src="${escHtml(latest.discordAvatar)}" alt="">` : escHtml(latest.discordUsername.slice(0,2).toUpperCase());
+
+    const timeline = apps.flatMap(app => {
+      const entries = [];
+      const date = d => new Date(d).toLocaleDateString("en-GB", { day:"numeric", month:"short", year:"numeric", hour:"2-digit", minute:"2-digit" });
+
+      entries.push(`
+        <div class="log-entry">
+          <div class="log-dot submitted"></div>
+          <div class="log-entry-body">
+            <div class="log-entry-action">Submitted attempt ${app.attemptNumber}</div>
+            <div class="log-entry-meta">${date(app.createdAt)}</div>
+          </div>
+        </div>`);
+
+      if (app.reviewedBy) {
+        entries.push(`
+          <div class="log-entry">
+            <div class="log-dot ${app.status}"></div>
+            <div class="log-entry-body">
+              <div class="log-entry-action">${app.status === "accepted" ? "Accepted" : "Rejected"} by ${escHtml(app.reviewedBy)}${app.reviewNote ? ` — "${escHtml(app.reviewNote)}"` : ""}</div>
+              <div class="log-entry-meta">${date(app.reviewedAt)}</div>
+            </div>
+          </div>`);
+      }
+
+      if (app.reversedBy) {
+        entries.push(`
+          <div class="log-entry">
+            <div class="log-dot reversed"></div>
+            <div class="log-entry-body">
+              <div class="log-entry-action">Decision reversed by ${escHtml(app.reversedBy)}${app.reversalNote ? ` — "${escHtml(app.reversalNote)}"` : ""}</div>
+              <div class="log-entry-meta">${date(app.reversedAt)}</div>
+            </div>
+          </div>`);
+      }
+
+      if (app.reapplyGrantedBy) {
+        entries.push(`
+          <div class="log-entry">
+            <div class="log-dot reapply"></div>
+            <div class="log-entry-body">
+              <div class="log-entry-action">Reapply granted by ${escHtml(app.reapplyGrantedBy)}</div>
+              <div class="log-entry-meta"></div>
+            </div>
+          </div>`);
+      }
+
+      return entries;
+    }).join("");
+
+    const reapplyBtn = latest.status === "rejected" && !latest.canReapply && latest.attemptNumber < 2 && !latest.blocked
+      ? `<button class="btn btn-ghost btn-sm" onclick="openModal('${latest._id}','grant-reapply')" style="margin-top:0.8rem;">Allow reapply</button>`
+      : "";
+    const revokeBtn = latest.canReapply
+      ? `<button class="btn btn-ghost btn-sm" onclick="openModal('${latest._id}','revoke-reapply')" style="margin-top:0.8rem;">Revoke reapply</button>`
+      : "";
+    const reverseBtn = latest.status !== "pending"
+      ? `<button class="btn btn-amber btn-sm" onclick="openModal('${latest._id}','reverse')" style="margin-top:0.8rem;">↩ Reverse</button>`
+      : "";
+
+    return `
+      <div class="log-card">
+        <div class="log-card-head">
+          <div style="display:flex;gap:0.8rem;align-items:center;">
+            <div class="app-avatar" style="width:36px;height:36px;font-size:0.85rem;">${avatarHtml}</div>
+            <div>
+              <div class="log-username">${escHtml(latest.discordUsername)}</div>
+              <div class="log-attempt">${apps.length} attempt${apps.length > 1 ? "s" : ""} · ${latest.blocked ? "🔴 blocked" : latest.status}</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">${reverseBtn}${reapplyBtn}${revokeBtn}</div>
+        </div>
+        <div class="log-timeline">${timeline}</div>
+      </div>`;
+  }).join("");
 }
 
-/* ---- FILTER TABS ---- */
-document.querySelectorAll(".filter-row .tab").forEach(tab => {
+/* ---- PAGE TABS ---- */
+document.querySelectorAll(".page-tab").forEach(tab => {
   tab.addEventListener("click", () => {
-    document.querySelectorAll(".filter-row .tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".page-tab").forEach(t => t.classList.remove("active"));
+    tab.classList.add("active");
+    currentTab = tab.dataset.tab;
+    document.getElementById("tabApplications").style.display = currentTab === "applications" ? "block" : "none";
+    document.getElementById("tabLogs").style.display         = currentTab === "logs"         ? "block" : "none";
+    if (currentTab === "logs") renderLogs();
+  });
+});
+
+/* ---- FILTER TABS ---- */
+document.querySelectorAll(".filter-tabs .tab").forEach(tab => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".filter-tabs .tab").forEach(t => t.classList.remove("active"));
     tab.classList.add("active");
     currentFilter = tab.dataset.filter;
     renderGrid();
@@ -424,33 +521,51 @@ document.querySelectorAll(".filter-row .tab").forEach(tab => {
 });
 
 /* ---- MODAL ---- */
-function openModal(id, status) {
-  pendingAction = { id, status };
-  const overlay = document.getElementById("modalOverlay");
-  document.getElementById("modalTitle").textContent = status === "accepted" ? "Accept Application" : "Reject Application";
-  document.getElementById("modalDesc").textContent = status === "accepted"
-    ? "The applicant will be given the Season 1 Participant role and sent a DM. Add an optional note below."
-    : "The applicant will be notified by DM that their application wasn't successful. Add an optional note below.";
-  document.getElementById("modalNote").value = "";
+function openModal(id, action) {
+  pendingAction = { id, action };
+  const overlay  = document.getElementById("modalOverlay");
+  const noteArea = document.getElementById("modalNote");
+  const reapplyPrompt = document.getElementById("reapplyPrompt");
+  noteArea.value = "";
+  reapplyPrompt.style.display = "none";
+
+  const titles = {
+    accepted:        "Accept Application",
+    rejected:        "Reject Application",
+    reverse:         "Reverse Decision",
+    "grant-reapply": "Grant Reapply",
+    "revoke-reapply":"Revoke Reapply",
+  };
+  const descs = {
+    accepted:        "The applicant will be given the Season 1 Participant role and sent a DM. Add an optional note.",
+    rejected:        "The applicant will be notified by DM. You'll be asked if you want to grant them a second attempt after confirming.",
+    reverse:         "This will set the application back to pending. Add an optional note explaining the reversal.",
+    "grant-reapply": "The applicant will be notified they can submit a second application.",
+    "revoke-reapply":"This will remove the reapply permission from the applicant.",
+  };
+
+  document.getElementById("modalTitle").textContent = titles[action] || "Confirm";
+  document.getElementById("modalDesc").textContent  = descs[action]  || "";
+
   const confirmBtn = document.getElementById("modalConfirm");
-  confirmBtn.textContent = status === "accepted" ? "Accept" : "Reject";
-  confirmBtn.className = `btn ${status === "accepted" ? "btn-accept" : "btn-reject"}`;
+  confirmBtn.textContent = titles[action] || "Confirm";
+  confirmBtn.className = `btn ${action === "accepted" ? "btn-accept" : action === "rejected" ? "btn-reject" : action === "reverse" ? "btn-amber" : "btn-ghost"}`;
+
   overlay.classList.add("open");
 }
 
 document.getElementById("modalCancel").addEventListener("click", closeModal);
-document.getElementById("modalOverlay").addEventListener("click", (e) => {
-  if (e.target === e.currentTarget) closeModal();
-});
+document.getElementById("modalOverlay").addEventListener("click", e => { if (e.target === e.currentTarget) closeModal(); });
 
 function closeModal() {
   document.getElementById("modalOverlay").classList.remove("open");
+  document.getElementById("reapplyPrompt").style.display = "none";
   pendingAction = null;
 }
 
 document.getElementById("modalConfirm").addEventListener("click", async () => {
   if (!pendingAction) return;
-  const { id, status } = pendingAction;
+  const { id, action } = pendingAction;
   const note = document.getElementById("modalNote").value.trim();
 
   document.getElementById("modalConfirm").disabled = true;
@@ -459,28 +574,118 @@ document.getElementById("modalConfirm").addEventListener("click", async () => {
   const res = await fetch(`/api/applications/${id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ status, reviewNote: note }),
+    body: JSON.stringify({ action, reviewNote: note, reversalNote: note }),
   }).catch(() => null);
 
   document.getElementById("modalConfirm").disabled = false;
-  closeModal();
 
   if (!res || !res.ok) {
     const err = res ? await res.json().catch(() => ({})) : {};
+    closeModal();
     showToast(err.message || "Something went wrong.");
     return;
   }
 
   const data = await res.json();
-  if (!data.success) { showToast(data.message); return; }
+  if (!data.success) { closeModal(); showToast(data.message); return; }
 
   // Update local state
   const idx = allApplications.findIndex(a => a._id === id);
   if (idx !== -1) allApplications[idx] = data.application;
-
   updateStats();
+
+  // After rejection — show reapply prompt inside the modal
+  if (action === "rejected" && data.application.attemptNumber < 2 && !data.application.blocked) {
+    document.getElementById("modalTitle").textContent = "Rejection saved";
+    document.getElementById("modalDesc").textContent  = "";
+    document.getElementById("modalNote").style.display = "none";
+    document.getElementById("modalConfirm").style.display = "none";
+    document.getElementById("modalCancel").textContent = "Close";
+    document.getElementById("reapplyPrompt").style.display = "block";
+    renderGrid();
+    return;
+  }
+
+  closeModal();
+  document.getElementById("modalNote").style.display = "";
+  document.getElementById("modalConfirm").style.display = "";
+  document.getElementById("modalCancel").textContent = "Cancel";
   renderGrid();
-  showToast(status === "accepted" ? "Application accepted — role assigned and DM sent." : "Application rejected — applicant notified.");
+  if (currentTab === "logs") renderLogs();
+
+  const toasts = {
+    accepted:        "Accepted — role assigned and DM sent.",
+    rejected:        "Rejected — applicant notified.",
+    reverse:         "Decision reversed — back to pending.",
+    "grant-reapply": "Reapply granted — applicant notified.",
+    "revoke-reapply":"Reapply revoked.",
+  };
+  showToast(toasts[action] || "Done.");
+});
+
+/* ---- REAPPLY PROMPT BUTTONS ---- */
+document.getElementById("reapplyYes").addEventListener("click", async () => {
+  if (!pendingAction) return;
+  const { id } = pendingAction;
+
+  const res = await fetch(`/api/applications/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ action: "grant-reapply" }),
+  }).catch(() => null);
+
+  if (res && res.ok) {
+    const data = await res.json();
+    if (data.success) {
+      const idx = allApplications.findIndex(a => a._id === id);
+      if (idx !== -1) allApplications[idx] = data.application;
+      updateStats();
+      renderGrid();
+      if (currentTab === "logs") renderLogs();
+    }
+  }
+
+  closeModal();
+  document.getElementById("modalNote").style.display = "";
+  document.getElementById("modalConfirm").style.display = "";
+  document.getElementById("modalCancel").textContent = "Cancel";
+  showToast("Reapply granted — applicant notified.");
+});
+
+document.getElementById("reapplyNo").addEventListener("click", () => {
+  closeModal();
+  document.getElementById("modalNote").style.display = "";
+  document.getElementById("modalConfirm").style.display = "";
+  document.getElementById("modalCancel").textContent = "Cancel";
+  showToast("Rejection saved. No reapply granted.");
+});
+
+/* ---- RESET SEASON ---- */
+document.getElementById("resetSeasonBtn").addEventListener("click", () => {
+  document.getElementById("resetModal").classList.add("open");
+});
+document.getElementById("resetCancel").addEventListener("click", () => {
+  document.getElementById("resetModal").classList.remove("open");
+});
+document.getElementById("resetModal").addEventListener("click", e => {
+  if (e.target === e.currentTarget) document.getElementById("resetModal").classList.remove("open");
+});
+document.getElementById("resetConfirm").addEventListener("click", async () => {
+  document.getElementById("resetConfirm").disabled = true;
+  document.getElementById("resetConfirm").textContent = "Resetting…";
+
+  const res = await fetch("/api/applications/reset-season", { method: "POST" }).catch(() => null);
+
+  document.getElementById("resetConfirm").disabled = false;
+  document.getElementById("resetConfirm").textContent = "Yes, reset season";
+  document.getElementById("resetModal").classList.remove("open");
+
+  if (res && res.ok) {
+    await loadApplications();
+    showToast("Season reset — all blocked users can now reapply.");
+  } else {
+    showToast("Reset failed. Try again.");
+  }
 });
 
 /* ---- HELPERS ---- */
@@ -488,6 +693,10 @@ function escHtml(str) {
   const d = document.createElement("div");
   d.textContent = str == null ? "" : String(str);
   return d.innerHTML;
+}
+
+function showGridError(msg) {
+  document.getElementById("appsGrid").innerHTML = `<div class="state-box"><h3>Error</h3><p>${escHtml(msg)}</p></div>`;
 }
 
 let toastTimer;

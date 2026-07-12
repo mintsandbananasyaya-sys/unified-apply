@@ -2,14 +2,16 @@ const express = require("express");
 const router  = express.Router();
 const Application = require("../models/Application");
 
-const APP_REVIEWER_ROLE_ID = process.env.APP_REVIEWER_ROLE_ID;
-const OWNER_ROLE_ID        = process.env.OWNER_ROLE_ID;
-const PARTICIPANT_ROLE_ID  = process.env.PARTICIPANT_ROLE_ID;
-const GUILD_ID             = process.env.DISCORD_GUILD_ID;
-const BOT_TOKEN            = process.env.BOT_TOKEN;
-const UNIFIED_EVENTS_URL   = process.env.UNIFIED_EVENTS_URL;
-const INTERNAL_SECRET      = process.env.INTERNAL_SECRET;
-const CURRENT_SEASON       = process.env.CURRENT_SEASON || "season-1";
+const APP_REVIEWER_ROLE_ID   = process.env.APP_REVIEWER_ROLE_ID;
+const OWNER_ROLE_ID          = process.env.OWNER_ROLE_ID;
+const PARTICIPANT_ROLE_ID    = process.env.PARTICIPANT_ROLE_ID;
+const GUILD_ID               = process.env.DISCORD_GUILD_ID;
+const BOT_TOKEN              = process.env.BOT_TOKEN;
+const UNIFIED_EVENTS_URL     = process.env.UNIFIED_EVENTS_URL;
+const INTERNAL_SECRET        = process.env.INTERNAL_SECRET;
+const CURRENT_SEASON         = process.env.CURRENT_SEASON || "season-1";
+const APPLICATIONS_CHANNEL_ID = process.env.APPLICATIONS_CHANNEL_ID;
+const STAFF_PANEL_URL        = "https://unified-apply.onrender.com/staff.html";
 
 /* ---- Notify Unified Events dashboard ---- */
 async function sendUnifiedEventsNotification(userId, title, description) {
@@ -49,7 +51,36 @@ async function sendDiscordDM(discordId, content) {
   }
 }
 
-/* ---- Get member roles from Discord ---- */
+/* ---- Ping applications channel ---- */
+async function pingApplicationsChannel(app) {
+  if (!APPLICATIONS_CHANNEL_ID || !BOT_TOKEN) return;
+  try {
+    const submittedAt = new Date(app.createdAt).toLocaleString("en-GB", {
+      day: "numeric", month: "short", year: "numeric",
+      hour: "2-digit", minute: "2-digit",
+    });
+
+    const content =
+      `<@&${APP_REVIEWER_ROLE_ID}> **New application received!**\n\n` +
+      `👤 **Applicant:** ${app.discordUsername} (<@${app.discordId}>)\n` +
+      `🕐 **Submitted:** ${submittedAt}\n` +
+      `🔢 **Attempt:** ${app.attemptNumber}\n` +
+      `📋 **Review here:** ${STAFF_PANEL_URL}`;
+
+    await fetch(`https://discord.com/api/channels/${APPLICATIONS_CHANNEL_ID}/messages`, {
+      method: "POST",
+      headers: { Authorization: `Bot ${BOT_TOKEN}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        content,
+        allowed_mentions: { roles: [APP_REVIEWER_ROLE_ID] },
+      }),
+    });
+  } catch (err) {
+    console.error("[pingApplicationsChannel]", err.message);
+  }
+}
+
+/* ---- Get member roles ---- */
 async function getMemberRoles(discordId) {
   try {
     const res = await fetch(
@@ -59,24 +90,17 @@ async function getMemberRoles(discordId) {
     if (!res.ok) return [];
     const member = await res.json();
     return member.roles || [];
-  } catch {
-    return [];
-  }
+  } catch { return []; }
 }
 
-/* ---- Middleware: must be logged in ---- */
+/* ---- Middleware ---- */
 function requireAuth(req, res, next) {
-  if (!req.session.user) {
-    return res.status(401).json({ success: false, message: "Not logged in." });
-  }
+  if (!req.session.user) return res.status(401).json({ success: false, message: "Not logged in." });
   next();
 }
 
-/* ---- Middleware: must have App Reviewer role ---- */
 async function requireReviewer(req, res, next) {
-  if (!req.session.user) {
-    return res.status(401).json({ success: false, message: "Not logged in." });
-  }
+  if (!req.session.user) return res.status(401).json({ success: false, message: "Not logged in." });
   const roles = await getMemberRoles(req.session.user.id);
   if (!roles.includes(APP_REVIEWER_ROLE_ID)) {
     return res.status(403).json({ success: false, message: "You don't have permission." });
@@ -84,11 +108,8 @@ async function requireReviewer(req, res, next) {
   next();
 }
 
-/* ---- Middleware: must have Owner role ---- */
 async function requireOwner(req, res, next) {
-  if (!req.session.user) {
-    return res.status(401).json({ success: false, message: "Not logged in." });
-  }
+  if (!req.session.user) return res.status(401).json({ success: false, message: "Not logged in." });
   const roles = await getMemberRoles(req.session.user.id);
   if (!roles.includes(OWNER_ROLE_ID)) {
     return res.status(403).json({ success: false, message: "Owner only." });
@@ -98,7 +119,6 @@ async function requireOwner(req, res, next) {
 
 /* ================================================================
    GET /api/applications/me
-   Check current user's application status
 ================================================================ */
 router.get("/me", requireAuth, async (req, res) => {
   try {
@@ -107,8 +127,8 @@ router.get("/me", requireAuth, async (req, res) => {
       season: CURRENT_SEASON,
     }).sort({ attemptNumber: -1 });
 
-    const latest = apps[0] || null;
-    const blocked = latest?.blocked || false;
+    const latest      = apps[0] || null;
+    const blocked     = latest?.blocked || false;
     const attemptCount = apps.length;
 
     return res.json({ success: true, application: latest, attemptCount, blocked });
@@ -119,12 +139,23 @@ router.get("/me", requireAuth, async (req, res) => {
 });
 
 /* ================================================================
+   GET /api/applications/me/is-owner
+================================================================ */
+router.get("/me/is-owner", requireAuth, async (req, res) => {
+  try {
+    const roles = await getMemberRoles(req.session.user.id);
+    return res.json({ success: true, isOwner: roles.includes(OWNER_ROLE_ID) });
+  } catch {
+    return res.json({ success: true, isOwner: false });
+  }
+});
+
+/* ================================================================
    POST /api/applications
    Submit a new application
 ================================================================ */
 router.post("/", requireAuth, async (req, res) => {
   try {
-    const { discordId, discordUsername, discordAvatar } = req.session.user;
     const userId   = req.session.user.id;
     const username = req.session.user.username;
     const avatar   = req.session.user.avatar;
@@ -135,15 +166,10 @@ router.post("/", requireAuth, async (req, res) => {
       season: CURRENT_SEASON,
     }).sort({ attemptNumber: 1 });
 
-    // Blocked entirely
     if (existing.some(a => a.blocked)) {
-      return res.status(403).json({
-        success: false,
-        message: "You are blocked from applying this season.",
-      });
+      return res.status(403).json({ success: false, message: "You are blocked from applying this season." });
     }
 
-    // Already has a pending or accepted application
     const active = existing.find(a => a.status === "pending" || a.status === "accepted");
     if (active) {
       return res.status(400).json({
@@ -154,26 +180,23 @@ router.post("/", requireAuth, async (req, res) => {
       });
     }
 
-    // Check attempt count
     const attemptCount = existing.length;
 
     if (attemptCount >= 2) {
-      return res.status(403).json({
-        success: false,
-        message: "You have used both application attempts this season.",
-      });
+      return res.status(403).json({ success: false, message: "You have used both application attempts this season." });
     }
 
-    // If this is attempt 2, check they were granted reapply
-    if (attemptCount === 1) {
-      const firstApp = existing[0];
-      if (!firstApp.canReapply) {
-        return res.status(403).json({
-          success: false,
-          message: "You have not been granted a second attempt.",
-        });
-      }
+    if (attemptCount === 1 && !existing[0].canReapply) {
+      return res.status(403).json({ success: false, message: "You have not been granted a second attempt." });
     }
+
+    const {
+      minecraftUsername, age, timezone, country, hoursAvailable,
+      hasVoiceChat, canShareRecordings, yearsPlayed, javaOrBedrock,
+      playerType, pvpSkill, buildingSkill, whyJoin, whatPlanToDo,
+      whatMakesFit, preferredCountry, agreeInactivity, understandInactivity,
+      commitment, anythingElse, understandNotPvp, understandRules,
+    } = req.body;
 
     const newApp = await Application.create({
       discordId:       userId,
@@ -181,7 +204,15 @@ router.post("/", requireAuth, async (req, res) => {
       discordAvatar:   avatar,
       attemptNumber:   attemptCount + 1,
       season:          CURRENT_SEASON,
+      minecraftUsername, age, timezone, country, hoursAvailable,
+      hasVoiceChat, canShareRecordings, yearsPlayed, javaOrBedrock,
+      playerType, pvpSkill, buildingSkill, whyJoin, whatPlanToDo,
+      whatMakesFit, preferredCountry, agreeInactivity, understandInactivity,
+      commitment, anythingElse, understandNotPvp, understandRules,
     });
+
+    // Ping applications channel
+    await pingApplicationsChannel(newApp);
 
     return res.json({ success: true, application: newApp });
   } catch (err) {
@@ -191,8 +222,7 @@ router.post("/", requireAuth, async (req, res) => {
 });
 
 /* ================================================================
-   GET /api/applications
-   Staff — all applications
+   GET /api/applications — staff only
 ================================================================ */
 router.get("/", requireReviewer, async (req, res) => {
   try {
@@ -209,14 +239,11 @@ router.get("/", requireReviewer, async (req, res) => {
 });
 
 /* ================================================================
-   GET /api/applications/history/:discordId
-   Staff — full application history for one user
+   GET /api/applications/history/:discordId — staff only
 ================================================================ */
 router.get("/history/:discordId", requireReviewer, async (req, res) => {
   try {
-    const apps = await Application.find({
-      discordId: req.params.discordId,
-    }).sort({ createdAt: 1 }).lean();
+    const apps = await Application.find({ discordId: req.params.discordId }).sort({ createdAt: 1 }).lean();
     return res.json({ success: true, applications: apps });
   } catch (err) {
     console.error("[GET /api/applications/history]", err);
@@ -225,8 +252,7 @@ router.get("/history/:discordId", requireReviewer, async (req, res) => {
 });
 
 /* ================================================================
-   PATCH /api/applications/:id
-   Staff — accept, reject, reverse, or grant reapply
+   PATCH /api/applications/:id — staff only
 ================================================================ */
 router.patch("/:id", requireReviewer, async (req, res) => {
   const { action, reviewNote, reversalNote } = req.body;
@@ -240,11 +266,8 @@ router.patch("/:id", requireReviewer, async (req, res) => {
     const app = await Application.findById(req.params.id);
     if (!app) return res.status(404).json({ success: false, message: "Application not found." });
 
-    /* ---- ACCEPT ---- */
     if (action === "accepted") {
-      if (app.status !== "pending") {
-        return res.status(400).json({ success: false, message: "Application already reviewed." });
-      }
+      if (app.status !== "pending") return res.status(400).json({ success: false, message: "Application already reviewed." });
 
       app.status     = "accepted";
       app.reviewedBy = req.session.user.username;
@@ -252,7 +275,6 @@ router.patch("/:id", requireReviewer, async (req, res) => {
       app.reviewNote = reviewNote || "";
       await app.save();
 
-      // Assign role
       try {
         await fetch(
           `https://discord.com/api/guilds/${GUILD_ID}/members/${app.discordId}/roles/${PARTICIPANT_ROLE_ID}`,
@@ -260,13 +282,11 @@ router.patch("/:id", requireReviewer, async (req, res) => {
         );
       } catch (err) { console.error("[role assign failed]", err.message); }
 
-      // DM
       await sendDiscordDM(
         app.discordId,
-        `🎉 **Your application has been accepted!**\n\nWelcome to Season 1 — you've been given the Season 1 Participant role.${reviewNote ? `\n\nNote from staff: ${reviewNote}` : ""}`
+        `🎉 **Your application has been accepted!**\n\nWelcome to Season 1 — you've been given the Season 1 Participant role. See you in the server!${reviewNote ? `\n\nNote from staff: ${reviewNote}` : ""}`
       );
 
-      // Unified Events notification
       await sendUnifiedEventsNotification(
         app.discordId,
         "Your application was accepted! 🎉",
@@ -274,37 +294,32 @@ router.patch("/:id", requireReviewer, async (req, res) => {
       );
     }
 
-    /* ---- REJECT ---- */
     else if (action === "rejected") {
-      if (app.status !== "pending") {
-        return res.status(400).json({ success: false, message: "Application already reviewed." });
-      }
+      if (app.status !== "pending") return res.status(400).json({ success: false, message: "Application already reviewed." });
 
       app.status     = "rejected";
       app.reviewedBy = req.session.user.username;
       app.reviewedAt = new Date();
       app.reviewNote = reviewNote || "";
 
-      // Check if this is their 2nd rejection — block them
-      const previousApps = await Application.find({
+      const previousRejections = await Application.find({
         discordId: app.discordId,
         season:    app.season,
         status:    "rejected",
         _id:       { $ne: app._id },
       });
 
-      if (previousApps.length >= 1) {
-        app.blocked = true;
-      }
-
+      if (previousRejections.length >= 1) app.blocked = true;
       await app.save();
 
       const isBlocked = app.blocked;
-      const dmMsg = isBlocked
-        ? `Your application was reviewed and unfortunately wasn't successful.${reviewNote ? `\n\nNote from staff: ${reviewNote}` : ""}\n\nThis was your second attempt — you won't be able to apply again until a new season opens.`
-        : `Your application wasn't successful this time.${reviewNote ? `\n\nNote from staff: ${reviewNote}` : ""}\n\nYou may be granted a second attempt — keep an eye on your notifications.`;
+      await sendDiscordDM(
+        app.discordId,
+        isBlocked
+          ? `Your application was reviewed and unfortunately wasn't successful.${reviewNote ? `\n\nNote from staff: ${reviewNote}` : ""}\n\nThis was your second attempt — you won't be able to apply again until a new season opens.`
+          : `Your application wasn't successful this time.${reviewNote ? `\n\nNote from staff: ${reviewNote}` : ""}\n\nYou may be granted a second attempt — keep an eye on your notifications.`
+      );
 
-      await sendDiscordDM(app.discordId, dmMsg);
       await sendUnifiedEventsNotification(
         app.discordId,
         isBlocked ? "Application denied — no further attempts" : "Application update",
@@ -314,24 +329,20 @@ router.patch("/:id", requireReviewer, async (req, res) => {
       );
     }
 
-    /* ---- REVERSE (undo accept or reject) ---- */
     else if (action === "reverse") {
-      if (app.status === "pending") {
-        return res.status(400).json({ success: false, message: "Application is still pending." });
-      }
+      if (app.status === "pending") return res.status(400).json({ success: false, message: "Application is still pending." });
 
       const previousStatus = app.status;
-      app.status      = "pending";
-      app.reversedBy  = req.session.user.username;
-      app.reversedAt  = new Date();
+      app.status       = "pending";
+      app.reversedBy   = req.session.user.username;
+      app.reversedAt   = new Date();
       app.reversalNote = reversalNote || "";
-      app.reviewedBy  = null;
-      app.reviewedAt  = null;
-      app.blocked     = false;
-      app.canReapply  = false;
+      app.reviewedBy   = null;
+      app.reviewedAt   = null;
+      app.blocked      = false;
+      app.canReapply   = false;
       await app.save();
 
-      // If reversing an acceptance — remove the role
       if (previousStatus === "accepted") {
         try {
           await fetch(
@@ -347,18 +358,13 @@ router.patch("/:id", requireReviewer, async (req, res) => {
       );
     }
 
-    /* ---- GRANT REAPPLY ---- */
     else if (action === "grant-reapply") {
-      if (app.status !== "rejected") {
-        return res.status(400).json({ success: false, message: "Can only grant reapply on rejected applications." });
-      }
-      if (app.attemptNumber >= 2) {
-        return res.status(400).json({ success: false, message: "User has already used both attempts." });
-      }
+      if (app.status !== "rejected") return res.status(400).json({ success: false, message: "Can only grant reapply on rejected applications." });
+      if (app.attemptNumber >= 2) return res.status(400).json({ success: false, message: "User has already used both attempts." });
 
-      app.canReapply        = true;
-      app.blocked           = false;
-      app.reapplyGrantedBy  = req.session.user.username;
+      app.canReapply       = true;
+      app.blocked          = false;
+      app.reapplyGrantedBy = req.session.user.username;
       await app.save();
 
       await sendDiscordDM(
@@ -372,11 +378,8 @@ router.patch("/:id", requireReviewer, async (req, res) => {
       );
     }
 
-    /* ---- REVOKE REAPPLY ---- */
     else if (action === "revoke-reapply") {
-      if (!app.canReapply) {
-        return res.status(400).json({ success: false, message: "Reapply was not granted." });
-      }
+      if (!app.canReapply) return res.status(400).json({ success: false, message: "Reapply was not granted." });
       app.canReapply       = false;
       app.reapplyGrantedBy = null;
       await app.save();
@@ -390,33 +393,15 @@ router.patch("/:id", requireReviewer, async (req, res) => {
 });
 
 /* ================================================================
-   POST /api/applications/reset-season
-   Owner only — unblocks all users and opens new season
+   POST /api/applications/reset-season — owner only
 ================================================================ */
 router.post("/reset-season", requireOwner, async (req, res) => {
   try {
-    await Application.updateMany(
-      { blocked: true },
-      { $set: { blocked: false } }
-    );
-
+    await Application.updateMany({ blocked: true }, { $set: { blocked: false } });
     return res.json({ success: true, message: "All blocked users have been reset." });
   } catch (err) {
     console.error("[POST /api/applications/reset-season]", err);
     return res.status(500).json({ success: false, message: "Server error." });
-  }
-});
-
-/* ================================================================
-   GET /api/applications/me/is-owner
-   Check if current user has the owner role
-================================================================ */
-router.get("/me/is-owner", requireAuth, async (req, res) => {
-  try {
-    const roles = await getMemberRoles(req.session.user.id);
-    return res.json({ success: true, isOwner: roles.includes(OWNER_ROLE_ID) });
-  } catch (err) {
-    return res.json({ success: true, isOwner: false });
   }
 });
 

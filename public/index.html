@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,303 +8,178 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ---------- TOKENS ---------- */
 :root{
-  --void:#0a0d14;
-  --void-soft:#11151f;
-  --panel:#141925;
-  --panel-raised:#181e2c;
-  --line:rgba(255,255,255,0.09);
-  --line-soft:rgba(255,255,255,0.05);
-  --ink:#edeff5;
-  --mist:#8b92a6;
-  --mist-dim:#5b6175;
-  --blue:#4169ff;
-  --blue-dim:#1c2c66;
-  --red:#ff3b4e;
-  --violet:#a25cff;
-  --radius:7px;
-  --radius-lg:10px;
-  --font-display:'Big Shoulders Display', sans-serif;
-  --font-body:'IBM Plex Sans', sans-serif;
-  --font-mono:'IBM Plex Mono', monospace;
+  --void:#0a0d14;--void-soft:#11151f;--panel:#141925;--panel-raised:#181e2c;
+  --line:rgba(255,255,255,0.09);--line-soft:rgba(255,255,255,0.05);
+  --ink:#edeff5;--mist:#8b92a6;--mist-dim:#5b6175;
+  --blue:#4169ff;--red:#ff3b4e;--violet:#a25cff;--green:#3ddc8a;
+  --radius:7px;--radius-lg:10px;
+  --font-display:'Big Shoulders Display',sans-serif;
+  --font-body:'IBM Plex Sans',sans-serif;
+  --font-mono:'IBM Plex Mono',monospace;
   --container:1180px;
 }
-
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body{
-  background:var(--void);
-  color:var(--ink);
-  font-family:var(--font-body);
-  line-height:1.55;
-  -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-}
+body{background:var(--void);color:var(--ink);font-family:var(--font-body);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh;display:flex;flex-direction:column;}
 a{color:inherit;text-decoration:none;}
 button{font-family:inherit;cursor:pointer;}
-
-.wrap{
-  max-width:var(--container);
-  margin:0 auto;
-  padding-inline:clamp(20px,5vw,56px);
-}
-
-.eyebrow{
-  font-family:var(--font-mono);
-  font-size:0.72rem;
-  letter-spacing:0.18em;
-  text-transform:uppercase;
-  font-weight:500;
-  color:var(--mist);
-}
+.wrap{max-width:var(--container);margin:0 auto;padding-inline:clamp(20px,5vw,56px);}
+.eyebrow{font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;color:var(--mist);}
 .eyebrow.is-blue{color:var(--blue);}
 
-/* ---------- BUTTONS ---------- */
-.btn{
-  display:inline-flex;
-  align-items:center;
-  gap:0.55rem;
-  font-family:var(--font-body);
-  font-weight:600;
-  font-size:0.92rem;
-  padding:0.8rem 1.5rem;
-  border-radius:var(--radius);
-  border:1px solid transparent;
-  transition:transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
-  white-space:nowrap;
-}
-.btn-primary{
-  background:linear-gradient(115deg, var(--blue), var(--red));
-  color:#fff;
-  box-shadow:0 0 0 1px rgba(255,255,255,0.06) inset, 0 10px 26px -12px rgba(255,59,78,0.45);
-}
-.btn-primary:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(255,255,255,0.1) inset, 0 14px 30px -10px rgba(65,105,255,0.5);}
-.btn-ghost{
-  background:transparent;
-  color:var(--ink);
-  border-color:var(--line);
-}
+.btn{display:inline-flex;align-items:center;gap:0.55rem;font-family:var(--font-body);font-weight:600;font-size:0.92rem;padding:0.8rem 1.5rem;border-radius:var(--radius);border:1px solid transparent;transition:transform 0.18s ease,box-shadow 0.18s ease,border-color 0.18s ease,background 0.18s ease;white-space:nowrap;}
+.btn-primary{background:linear-gradient(115deg,var(--blue),var(--red));color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,0.06) inset,0 10px 26px -12px rgba(255,59,78,0.45);}
+.btn-primary:hover{transform:translateY(-1px);}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line);}
 .btn-ghost:hover{border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.03);}
 .btn-small{padding:0.55rem 1.05rem;font-size:0.82rem;}
+.btn-discord{background:#5865f2;color:#fff;border-color:transparent;box-shadow:0 8px 24px -8px rgba(88,101,242,0.5);}
+.btn-discord:hover{transform:translateY(-1px);}
+.btn:disabled{opacity:0.5;pointer-events:none;}
 
-/* Discord button */
-.btn-discord{
-  background:#5865f2;
-  color:#fff;
-  border-color:transparent;
-  box-shadow:0 8px 24px -8px rgba(88,101,242,0.5);
-}
-.btn-discord:hover{transform:translateY(-1px);box-shadow:0 12px 28px -8px rgba(88,101,242,0.6);}
-
-/* ---------- NAV ---------- */
-.nav{
-  position:sticky;top:0;z-index:60;
-  background:rgba(10,13,20,0.78);
-  backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--line-soft);
-}
-.nav-inner{
-  display:flex;align-items:center;justify-content:space-between;
-  height:72px;
-}
-.brand{
-  display:flex;align-items:center;gap:0.65rem;
-  font-family:var(--font-display);font-weight:700;font-size:1.15rem;letter-spacing:0.01em;
-}
+.nav{position:sticky;top:0;z-index:60;background:rgba(10,13,20,0.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line-soft);}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:72px;}
+.brand{display:flex;align-items:center;gap:0.65rem;font-family:var(--font-display);font-weight:700;font-size:1.15rem;letter-spacing:0.01em;}
 .brand-mark{width:30px;height:30px;flex-shrink:0;}
-
 .nav-actions{display:flex;align-items:center;gap:0.85rem;}
-
-.auth-chip{
-  display:none;align-items:center;gap:0.55rem;
-  font-family:var(--font-mono);font-size:0.78rem;color:var(--mist);
-  border:1px solid var(--line);border-radius:99px;
-  padding:0.35rem 0.85rem 0.35rem 0.4rem;
-}
-.auth-chip .avatar{
-  width:24px;height:24px;border-radius:50%;
-  background:linear-gradient(135deg,var(--blue),var(--red));
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-display);font-size:0.7rem;color:#fff;
-  overflow:hidden;flex-shrink:0;
-}
+.auth-chip{display:none;align-items:center;gap:0.55rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--mist);border:1px solid var(--line);border-radius:99px;padding:0.35rem 0.85rem 0.35rem 0.4rem;}
+.auth-chip .avatar{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--red));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:0.7rem;color:#fff;overflow:hidden;flex-shrink:0;}
 .auth-chip .avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
 body.is-authed .auth-chip{display:flex;}
-
-.nav-burger{
-  display:none;
-  width:38px;height:38px;align-items:center;justify-content:center;
-  background:transparent;border:1px solid var(--line);border-radius:var(--radius);
-}
+.nav-burger{display:none;width:38px;height:38px;align-items:center;justify-content:center;background:transparent;border:1px solid var(--line);border-radius:var(--radius);}
 .nav-burger span{display:block;width:16px;height:1.5px;background:var(--ink);position:relative;}
-.nav-burger span::before,.nav-burger span::after{
-  content:"";position:absolute;left:0;width:16px;height:1.5px;
-  background:var(--ink);transition:transform 0.2s ease;
-}
+.nav-burger span::before,.nav-burger span::after{content:"";position:absolute;left:0;width:16px;height:1.5px;background:var(--ink);transition:transform 0.2s ease;}
 .nav-burger span::before{top:-5px;}
 .nav-burger span::after{top:5px;}
-
-.mobile-panel{
-  display:none;
-  border-top:1px solid var(--line-soft);
-  background:var(--void-soft);
-}
+.mobile-panel{display:none;border-top:1px solid var(--line-soft);background:var(--void-soft);}
 .mobile-panel.open{display:block;}
 .mobile-panel .wrap{padding-block:1.1rem;}
 .mobile-panel .btn{width:100%;justify-content:center;margin-top:0.8rem;}
 
-/* ---------- MAIN ---------- */
 main{flex:1;display:flex;flex-direction:column;}
 
-/* ---------- HERO ---------- */
-.hero{
-  position:relative;
-  padding-top:clamp(56px,9vw,84px);
-  padding-bottom:clamp(56px,9vw,96px);
-  overflow:hidden;
-  flex:1;
-  display:flex;
-  align-items:center;
-}
-.hero-glow{
-  position:absolute;top:-20%;width:55%;height:90%;
-  filter:blur(60px);opacity:0.4;border-radius:50%;
-  pointer-events:none;
-}
+/* ---- HERO / LANDING ---- */
+.hero{position:relative;padding-top:clamp(56px,9vw,84px);padding-bottom:clamp(56px,9vw,96px);overflow:hidden;flex:1;display:flex;align-items:center;}
+.hero-glow{position:absolute;top:-20%;width:55%;height:90%;filter:blur(60px);opacity:0.4;border-radius:50%;pointer-events:none;}
 .hero-glow.blue{left:-12%;background:radial-gradient(circle,var(--blue) 0%,transparent 70%);animation:drift-a 14s ease-in-out infinite;}
 .hero-glow.red{right:-12%;background:radial-gradient(circle,var(--red) 0%,transparent 70%);animation:drift-b 16s ease-in-out infinite;}
 @keyframes drift-a{0%,100%{transform:translate(0,0);}50%{transform:translate(18px,12px);}}
 @keyframes drift-b{0%,100%{transform:translate(0,0);}50%{transform:translate(-18px,16px);}}
+.hero-content{position:relative;z-index:2;max-width:680px;}
+.hero-title{font-family:var(--font-display);font-weight:800;line-height:0.92;letter-spacing:0.01em;text-transform:uppercase;font-size:clamp(2.8rem,6.5vw,5rem);margin-top:1rem;background:linear-gradient(92deg,var(--blue) 0%,var(--blue) 32%,var(--ink) 50%,var(--red) 68%,var(--red) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hero-sub{margin-top:1.3rem;font-size:clamp(1rem,2vw,1.12rem);color:var(--mist);max-width:500px;}
+.hero-actions{display:flex;gap:0.9rem;margin-top:2rem;flex-wrap:wrap;}
 
-.hero-content{
-  position:relative;z-index:2;
-  max-width:680px;
-}
+/* ---- STATUS CARD (logged in, no application yet) ---- */
+.status-card{margin-top:3rem;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-lg);padding:2rem;max-width:580px;display:flex;flex-direction:column;gap:1rem;}
+.status-badge-lg{display:inline-flex;align-items:center;gap:0.55rem;font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.4rem 0.9rem;border-radius:99px;background:rgba(255,255,255,0.04);border:1px solid var(--line);color:var(--mist-dim);align-self:flex-start;}
+.status-badge-lg .dot{width:7px;height:7px;border-radius:50%;background:var(--mist-dim);flex-shrink:0;}
+.status-badge-lg.is-open{color:var(--green);border-color:rgba(61,220,138,0.35);background:rgba(61,220,138,0.08);}
+.status-badge-lg.is-open .dot{background:var(--green);animation:pulse-dot 1.6s ease-in-out infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.status-card h2{font-family:var(--font-display);font-weight:700;font-size:1.5rem;line-height:1.15;}
+.status-card p{font-size:0.92rem;color:var(--mist);line-height:1.6;}
 
-.hero-title{
-  font-family:var(--font-display);
-  font-weight:800;
-  line-height:0.92;
-  letter-spacing:0.01em;
-  text-transform:uppercase;
-  font-size:clamp(2.8rem,6.5vw,5rem);
-  margin-top:1rem;
-  background:linear-gradient(92deg,var(--blue) 0%,var(--blue) 32%,var(--ink) 50%,var(--red) 68%,var(--red) 100%);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-}
+/* ---- LOGIN PROMPT ---- */
+.login-prompt{margin-top:3rem;max-width:420px;}
+.login-prompt p{font-size:0.9rem;color:var(--mist);margin-bottom:1.2rem;line-height:1.6;}
 
-.hero-sub{
-  margin-top:1.3rem;
-  font-size:clamp(1rem,2vw,1.12rem);
-  color:var(--mist);
-  max-width:500px;
-}
+/* ---- MULTI-STEP FORM ---- */
+.form-shell{max-width:720px;margin:0 auto;padding-block:clamp(48px,8vw,80px);display:none;}
+.form-shell.visible{display:block;}
 
-/* ---------- STATUS CARD ---------- */
-.status-card{
-  margin-top:3rem;
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:var(--radius-lg);
-  padding:2rem 2rem;
-  max-width:520px;
-  display:flex;
-  flex-direction:column;
-  gap:1rem;
-}
+/* Progress bar */
+.progress-wrap{margin-bottom:2.5rem;}
+.progress-steps{display:flex;align-items:center;gap:0;}
+.progress-step{display:flex;align-items:center;gap:0;flex:1;}
+.step-circle{width:32px;height:32px;border-radius:50%;border:2px solid var(--line);background:var(--void-soft);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:0.72rem;font-weight:600;color:var(--mist-dim);flex-shrink:0;transition:all 0.25s ease;}
+.step-circle.active{border-color:var(--blue);background:var(--blue);color:#fff;}
+.step-circle.done{border-color:var(--green);background:var(--green);color:#fff;}
+.step-line{flex:1;height:2px;background:var(--line);transition:background 0.25s ease;}
+.step-line.done{background:var(--green);}
+.progress-step:last-child .step-line{display:none;}
+.progress-label{font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--mist-dim);margin-top:0.6rem;}
+.progress-label.active{color:var(--blue);}
 
-.status-badge-lg{
-  display:inline-flex;align-items:center;gap:0.55rem;
-  font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;
-  padding:0.4rem 0.9rem;border-radius:99px;
-  background:rgba(255,255,255,0.04);
-  border:1px solid var(--line);
-  color:var(--mist-dim);
-  align-self:flex-start;
-}
-.status-badge-lg .dot{
-  width:7px;height:7px;border-radius:50%;
-  background:var(--mist-dim);
-  flex-shrink:0;
-}
+/* Page header */
+.page-section-label{font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue);margin-bottom:0.4rem;}
+.page-title{font-family:var(--font-display);font-weight:800;font-size:clamp(1.8rem,4vw,2.6rem);text-transform:uppercase;margin-bottom:0.5rem;}
+.page-desc{color:var(--mist);font-size:0.95rem;margin-bottom:2rem;max-width:560px;}
 
-.status-card h2{
-  font-family:var(--font-display);
-  font-weight:700;
-  font-size:1.5rem;
-  line-height:1.15;
-}
+/* Form fields */
+.field{display:flex;flex-direction:column;gap:0.45rem;margin-bottom:1.4rem;}
+.field label{font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--mist);}
+.field label .req{color:var(--red);margin-left:3px;}
+.field input[type="text"],
+.field input[type="number"],
+.field select,
+.field textarea{background:var(--void-soft);border:1px solid var(--line);border-radius:var(--radius);padding:0.8rem 1rem;font-family:var(--font-body);font-size:0.95rem;color:var(--ink);transition:border-color 0.15s ease,background 0.15s ease,box-shadow 0.15s ease;width:100%;appearance:none;}
+.field input::placeholder,.field textarea::placeholder{color:var(--mist-dim);}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:rgba(65,105,255,0.55);background:var(--panel);box-shadow:0 0 0 3px rgba(65,105,255,0.1);}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b92a6' stroke-width='1.8'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 0.9rem center;background-size:16px;padding-right:2.5rem;cursor:pointer;}
+.field select option{background:var(--panel);color:var(--ink);}
+.field textarea{resize:vertical;min-height:100px;line-height:1.6;}
+.field-hint{font-family:var(--font-mono);font-size:0.68rem;color:var(--mist-dim);letter-spacing:0.02em;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;}
 
-.status-card p{
-  font-size:0.92rem;
-  color:var(--mist);
-  line-height:1.6;
-}
+/* Radio group */
+.radio-group{display:flex;flex-direction:column;gap:0.5rem;}
+.radio-option{display:flex;align-items:center;gap:0.7rem;padding:0.7rem 1rem;border:1px solid var(--line);border-radius:var(--radius);cursor:pointer;transition:border-color 0.15s ease,background 0.15s ease;}
+.radio-option:hover{border-color:rgba(255,255,255,0.2);background:rgba(255,255,255,0.02);}
+.radio-option input[type="radio"]{accent-color:var(--blue);width:16px;height:16px;flex-shrink:0;}
+.radio-option.selected{border-color:rgba(65,105,255,0.5);background:rgba(65,105,255,0.06);}
+.radio-option span{font-size:0.92rem;}
 
-.status-card-actions{
-  display:flex;align-items:center;gap:0.8rem;
-  flex-wrap:wrap;
-  padding-top:0.4rem;
-}
+/* Linear scale */
+.scale-wrap{display:flex;gap:0.5rem;align-items:center;}
+.scale-btn{width:44px;height:44px;border-radius:var(--radius);border:1px solid var(--line);background:var(--void-soft);color:var(--mist);font-family:var(--font-mono);font-size:0.88rem;font-weight:600;transition:all 0.15s ease;display:flex;align-items:center;justify-content:center;}
+.scale-btn:hover{border-color:rgba(255,255,255,0.25);color:var(--ink);}
+.scale-btn.selected{background:linear-gradient(115deg,var(--blue),var(--red));border-color:transparent;color:#fff;}
+.scale-labels{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:0.64rem;color:var(--mist-dim);letter-spacing:0.04em;text-transform:uppercase;margin-top:0.3rem;}
 
-/* Login prompt — shown when not logged in */
-.login-prompt{
-  margin-top:3rem;
-  max-width:420px;
-}
-.login-prompt p{
-  font-size:0.9rem;
-  color:var(--mist);
-  margin-bottom:1.2rem;
-  line-height:1.6;
-}
+/* Nav buttons */
+.form-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--line-soft);}
 
-/* ---------- FOOTER ---------- */
-footer{
-  border-top:1px solid var(--line-soft);
-  padding-top:2rem;
-  padding-bottom:1.8rem;
-}
-.footer-inner{
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:1rem;
-}
-.footer-inner .brand{font-size:1rem;}
-.footer-copy{
-  font-family:var(--font-mono);
-  font-size:0.72rem;
-  color:var(--mist-dim);
-}
+/* Intro page */
+.intro-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-lg);padding:2rem;margin-bottom:2rem;}
+.intro-card h3{font-family:var(--font-display);font-weight:700;font-size:1.4rem;margin-bottom:0.8rem;}
+.intro-card p{color:var(--mist);font-size:0.92rem;line-height:1.7;}
+.intro-card .video-link{display:inline-flex;align-items:center;gap:0.5rem;color:var(--blue);font-family:var(--font-mono);font-size:0.78rem;letter-spacing:0.04em;text-transform:uppercase;margin-top:1rem;border:1px solid rgba(65,105,255,0.35);border-radius:var(--radius);padding:0.55rem 1rem;transition:background 0.15s ease;}
+.intro-card .video-link:hover{background:rgba(65,105,255,0.08);}
 
-/* ---------- TOAST ---------- */
-.toast{
-  position:fixed;bottom:2rem;left:50%;
-  transform:translateX(-50%) translateY(20px);
-  background:var(--panel-raised);
-  border:1px solid rgba(65,105,255,0.4);
-  border-radius:99px;
-  padding:0.75rem 1.5rem;
-  font-family:var(--font-mono);font-size:0.8rem;color:var(--ink);letter-spacing:0.03em;
-  display:flex;align-items:center;gap:0.6rem;
-  box-shadow:0 12px 36px -8px rgba(0,0,0,0.6);
-  opacity:0;transition:opacity 0.25s ease,transform 0.25s ease;
-  pointer-events:none;z-index:200;white-space:nowrap;
-}
+/* Success page */
+.success-card{text-align:center;padding:3rem 2rem;background:var(--panel);border:1px solid rgba(61,220,138,0.25);border-radius:var(--radius-lg);}
+.success-icon{width:64px;height:64px;border-radius:50%;background:rgba(61,220,138,0.12);border:1px solid rgba(61,220,138,0.35);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;}
+.success-icon svg{width:28px;height:28px;stroke:var(--green);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.success-card h2{font-family:var(--font-display);font-weight:700;font-size:1.8rem;margin-bottom:0.8rem;}
+.success-card p{color:var(--mist);font-size:0.95rem;max-width:480px;margin:0 auto;line-height:1.7;}
+
+/* Already applied card */
+.already-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-lg);padding:2rem;max-width:580px;}
+.already-card h2{font-family:var(--font-display);font-weight:700;font-size:1.5rem;margin-bottom:0.6rem;}
+.already-card p{color:var(--mist);font-size:0.92rem;line-height:1.6;}
+.already-status{display:inline-flex;align-items:center;gap:0.5rem;font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.35rem 0.8rem;border-radius:99px;border:1px solid var(--line);margin-top:0.8rem;}
+.already-status.pending{color:var(--blue);border-color:rgba(65,105,255,0.35);background:rgba(65,105,255,0.08);}
+.already-status.accepted{color:var(--green);border-color:rgba(61,220,138,0.35);background:rgba(61,220,138,0.08);}
+.already-status.rejected{color:var(--red);border-color:rgba(255,59,78,0.35);background:rgba(255,59,78,0.08);}
+
+/* Error */
+.form-error{background:rgba(255,59,78,0.08);border:1px solid rgba(255,59,78,0.25);border-radius:var(--radius);padding:0.75rem 1rem;font-family:var(--font-mono);font-size:0.8rem;color:var(--red);margin-bottom:1.2rem;display:none;}
+.form-error.visible{display:block;}
+
+/* Toast */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--panel-raised);border:1px solid rgba(65,105,255,0.4);border-radius:99px;padding:0.75rem 1.5rem;font-family:var(--font-mono);font-size:0.8rem;color:var(--ink);display:flex;align-items:center;gap:0.6rem;box-shadow:0 12px 36px -8px rgba(0,0,0,0.6);opacity:0;transition:opacity 0.25s ease,transform 0.25s ease;pointer-events:none;z-index:200;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .toast-dot{width:7px;height:7px;border-radius:50%;background:var(--blue);flex-shrink:0;}
 
-/* ---------- RESPONSIVE ---------- */
-@media(max-width:1080px){
-  .nav-burger{display:flex;}
-}
-@media(max-width:640px){
-  .status-card{padding:1.5rem;}
-  .footer-inner{flex-direction:column;align-items:flex-start;}
-}
+footer{border-top:1px solid var(--line-soft);padding-top:2rem;padding-bottom:1.8rem;}
+.footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.footer-inner .brand{font-size:1rem;}
+.footer-copy{font-family:var(--font-mono);font-size:0.72rem;color:var(--mist-dim);}
+
+@media(max-width:1080px){.nav-burger{display:flex;}}
+@media(max-width:640px){.field-row{grid-template-columns:1fr;}.scale-wrap{flex-wrap:wrap;}.footer-inner{flex-direction:column;align-items:flex-start;}}
 </style>
 </head>
 <body>
@@ -313,13 +187,12 @@ footer{
 <header class="nav">
   <div class="wrap nav-inner">
     <a href="/" class="brand">
-      <svg class="brand-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <svg class="brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
         <path d="M16 2 L29 16 L16 30 L16 16 Z" fill="#4169ff"/>
         <path d="M16 2 L3 16 L16 30 L16 16 Z" fill="#ff3b4e"/>
       </svg>
       UNIFIED APPLICATIONS
     </a>
-
     <div class="nav-actions">
       <div class="auth-chip" id="authChip">
         <span class="avatar" id="authAvatar"></span>
@@ -329,12 +202,9 @@ footer{
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.032.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 13.91 13.91 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
         Login with Discord
       </button>
-      <button class="nav-burger" id="burgerBtn" aria-label="Open menu" aria-expanded="false">
-        <span></span>
-      </button>
+      <button class="nav-burger" id="burgerBtn" aria-label="Open menu" aria-expanded="false"><span></span></button>
     </div>
   </div>
-
   <div class="mobile-panel" id="mobilePanel">
     <div class="wrap">
       <button class="btn btn-discord" id="authBtnMobile">
@@ -346,46 +216,330 @@ footer{
 </header>
 
 <main>
-  <section class="hero">
+
+  <!-- LANDING (not logged in) -->
+  <section class="hero" id="landingSection">
     <div class="hero-glow blue"></div>
     <div class="hero-glow red"></div>
-
     <div class="wrap">
       <div class="hero-content">
         <span class="eyebrow is-blue">Civilization Union</span>
         <h1 class="hero-title">UNIFIED<br>APPLICATIONS</h1>
-        <p class="hero-sub">The official application portal for Unified Events — staff roles, civilization leadership, and event positions.</p>
-
-        <!-- Shown when logged in -->
-        <div class="status-card" id="statusCard" style="display:none;">
-          <span class="status-badge-lg">
-            <span class="dot"></span>
-            Applications closed
-          </span>
-          <h2>No applications open yet.</h2>
-          <p>There are no open positions right now. Check back later or keep an eye on the Unified Events Discord for announcements when applications open.</p>
-          <div class="status-card-actions">
-            <a href="https://unified-events.onrender.com" class="btn btn-ghost btn-small" target="_blank" rel="noopener">Unified Events ↗</a>
-          </div>
-        </div>
-
-        <!-- Shown when not logged in -->
-        <div class="login-prompt" id="loginPrompt">
-          <p>Log in with Discord to see open applications and submit your own. You must be a member of the Unified Events server.</p>
+        <p class="hero-sub">The official application portal for Unified Events Season 1 — 200 Player European Civilization Event.</p>
+        <div class="hero-actions" id="landingActions">
           <button class="btn btn-discord" id="authBtnHero">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.032.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 13.91 13.91 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
-            Login with Discord
+            Login with Discord to Apply
           </button>
+        </div>
+
+        <!-- Logged in — show status card or apply button -->
+        <div id="loggedInContent" style="display:none;">
+          <!-- Already applied -->
+          <div class="already-card" id="alreadyCard" style="display:none;">
+            <h2>You've already applied</h2>
+            <p>Your application has been received and is being reviewed by staff. You'll be notified via Discord DM when a decision is made.</p>
+            <div class="already-status pending" id="alreadyStatus">● Pending review</div>
+          </div>
+
+          <!-- Can apply -->
+          <div class="status-card" id="applyCard" style="display:none;">
+            <span class="status-badge-lg is-open"><span class="dot"></span>Applications Open</span>
+            <h2>200 Player European Civilization Event</h2>
+            <p>Applications are open for Season 1. Fill out the form to secure your spot — staff will review your application within 24–72 hours.</p>
+            <div>
+              <button class="btn btn-primary" id="startFormBtn">Start Application →</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- MULTI-STEP FORM -->
+  <div class="wrap form-shell" id="formShell">
+
+    <!-- Progress -->
+    <div class="progress-wrap">
+      <div class="progress-steps">
+        <div class="progress-step" id="step-indicator-1">
+          <div class="step-circle active" id="step-circle-1">1</div>
+          <div class="step-line" id="step-line-1"></div>
+        </div>
+        <div class="progress-step" id="step-indicator-2">
+          <div class="step-circle" id="step-circle-2">2</div>
+          <div class="step-line" id="step-line-2"></div>
+        </div>
+        <div class="progress-step" id="step-indicator-3">
+          <div class="step-circle" id="step-circle-3">3</div>
+          <div class="step-line" id="step-line-3"></div>
+        </div>
+        <div class="progress-step" id="step-indicator-4">
+          <div class="step-circle" id="step-circle-4">4</div>
+          <div class="step-line" id="step-line-4"></div>
+        </div>
+        <div class="progress-step" id="step-indicator-5">
+          <div class="step-circle" id="step-circle-5">5</div>
+          <div class="step-line" id="step-line-5"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-error" id="formError"></div>
+
+    <!-- PAGE 1: Welcome -->
+    <div class="form-page" id="page-1">
+      <span class="page-section-label">Welcome</span>
+      <h2 class="page-title">200 Player European<br>Civilization Event</h2>
+      <p class="page-desc">Read the information below before starting your application. Make sure you meet the requirements and understand what this event involves.</p>
+
+      <div class="intro-card">
+        <h3>What is this event?</h3>
+        <p>Unified Events Season 1 is a 200-player Minecraft civilization event set in Europe. Players will form civilizations, build alliances, engage in diplomacy, and compete across a full season. This is primarily a roleplay and lore-driven experience — not a PvP-focused server.</p>
+        <a href="#" class="video-link" id="trailerLink" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3L21 12 5 21z"/></svg>
+          Watch the Trailer
+        </a>
+      </div>
+
+      <div class="intro-card">
+        <h3>Before you apply</h3>
+        <p>Applications are reviewed by staff within 24–72 hours. You have a maximum of 2 attempts per season. If your first application is denied, staff may grant you a second attempt. A second denial means you cannot apply again until a new season opens.</p>
+      </div>
+
+      <div class="form-nav">
+        <div></div>
+        <button class="btn btn-primary" onclick="goToPage(2)">Next — Section A →</button>
+      </div>
+    </div>
+
+    <!-- PAGE 2: Section A -->
+    <div class="form-page" id="page-2" style="display:none;">
+      <span class="page-section-label">Section A</span>
+      <h2 class="page-title">Information</h2>
+      <p class="page-desc">Basic information about you. Your Discord username is filled in automatically.</p>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Discord Username</label>
+          <input type="text" id="f-discordUsername" readonly style="opacity:0.6;cursor:not-allowed;">
+        </div>
+        <div class="field">
+          <label>Minecraft Username <span class="req">*</span></label>
+          <input type="text" id="f-minecraftUsername" placeholder="Your exact IGN" maxlength="32">
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Age <span class="req">*</span></label>
+          <input type="text" id="f-age" placeholder="e.g. 17" maxlength="3">
+        </div>
+        <div class="field">
+          <label>Timezone <span class="req">*</span></label>
+          <input type="text" id="f-timezone" placeholder="e.g. GMT+1, EST, CET">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Country <span class="req">*</span></label>
+        <input type="text" id="f-country" placeholder="e.g. United Kingdom" maxlength="60">
+      </div>
+
+      <div class="field">
+        <label>How many hours can you play? <span class="req">*</span></label>
+        <input type="text" id="f-hoursAvailable" placeholder="e.g. 2-3 hours on weekdays, 5+ on weekends" maxlength="100">
+        <span class="field-hint">Check the schedule in the schedule channel before answering.</span>
+      </div>
+
+      <div class="field">
+        <label>Do you have access to voice chat? <span class="req">*</span></label>
+        <div class="radio-group" id="rg-voiceChat">
+          <label class="radio-option"><input type="radio" name="voiceChat" value="Yes"> <span>Yes</span></label>
+          <label class="radio-option"><input type="radio" name="voiceChat" value="No"> <span>No</span></label>
+          <label class="radio-option"><input type="radio" name="voiceChat" value="Sometimes"> <span>Sometimes</span></label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Are you eligible to share recordings? <span class="req">*</span></label>
+        <div class="radio-group" id="rg-recordings">
+          <label class="radio-option"><input type="radio" name="recordings" value="Yes"> <span>Yes</span></label>
+          <label class="radio-option"><input type="radio" name="recordings" value="No"> <span>No</span></label>
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn btn-ghost" onclick="goToPage(1)">← Back</button>
+        <button class="btn btn-primary" onclick="validateAndNext(2, 3)">Next — Section B →</button>
+      </div>
+    </div>
+
+    <!-- PAGE 3: Section B -->
+    <div class="form-page" id="page-3" style="display:none;">
+      <span class="page-section-label">Section B</span>
+      <h2 class="page-title">Minecraft Experience</h2>
+      <p class="page-desc">Tell us about your Minecraft background.</p>
+
+      <div class="field">
+        <label>How long have you played Minecraft? <span class="req">*</span></label>
+        <select id="f-yearsPlayed">
+          <option value="" disabled selected>Select…</option>
+          <option>Less than 1 year</option>
+          <option>1–2 years</option>
+          <option>3–5 years</option>
+          <option>6–9 years</option>
+          <option>10+ years</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Java or Bedrock? <span class="req">*</span></label>
+        <div class="radio-group" id="rg-javaOrBedrock">
+          <label class="radio-option"><input type="radio" name="javaOrBedrock" value="Java"> <span>Java</span></label>
+          <label class="radio-option"><input type="radio" name="javaOrBedrock" value="Bedrock"> <span>Bedrock</span></label>
+          <label class="radio-option"><input type="radio" name="javaOrBedrock" value="Both"> <span>Both</span></label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>What kind of Minecraft player are you? <span class="req">*</span></label>
+        <select id="f-playerType">
+          <option value="" disabled selected>Select…</option>
+          <option>Builder</option>
+          <option>PvP Fighter</option>
+          <option>Diplomat / Negotiator</option>
+          <option>Explorer</option>
+          <option>Redstone Engineer</option>
+          <option>Lore / Roleplay focused</option>
+          <option>All-rounder</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Rate your PvP skills <span class="req">*</span></label>
+        <div class="scale-wrap" id="scale-pvp"></div>
+        <div class="scale-labels"><span>1 — Very weak</span><span>5 — Very strong</span></div>
+      </div>
+
+      <div class="field">
+        <label>Rate your building skills <span class="req">*</span></label>
+        <div class="scale-wrap" id="scale-building"></div>
+        <div class="scale-labels"><span>1 — Very basic</span><span>5 — Expert</span></div>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn btn-ghost" onclick="goToPage(2)">← Back</button>
+        <button class="btn btn-primary" onclick="validateAndNext(3, 4)">Next — Section C →</button>
+      </div>
+    </div>
+
+    <!-- PAGE 4: Section C -->
+    <div class="form-page" id="page-4" style="display:none;">
+      <span class="page-section-label">Section C</span>
+      <h2 class="page-title">Event Questions</h2>
+      <p class="page-desc">Tell us why you want to be part of this event and what you plan to contribute.</p>
+
+      <div class="field">
+        <label>Why do you want to play Unified Events Season 1? <span class="req">*</span></label>
+        <textarea id="f-whyJoin" placeholder="Tell us what draws you to this event…" maxlength="600"></textarea>
+      </div>
+
+      <div class="field">
+        <label>What do you plan to do? <span class="req">*</span></label>
+        <textarea id="f-whatPlanToDo" placeholder="Build a civilization, lead alliances, focus on PvP, diplomacy…" maxlength="600"></textarea>
+      </div>
+
+      <div class="field">
+        <label>What makes you fit for this event? <span class="req">*</span></label>
+        <textarea id="f-whatMakesFit" placeholder="Skills, experience, what you bring to the table…" maxlength="600"></textarea>
+      </div>
+
+      <div class="field">
+        <label>What country in Europe do you prefer to spawn in? <span class="req">*</span></label>
+        <input type="text" id="f-preferredCountry" placeholder="e.g. France, Germany, Spain…" maxlength="60">
+      </div>
+
+      <div class="form-nav">
+        <button class="btn btn-ghost" onclick="goToPage(3)">← Back</button>
+        <button class="btn btn-primary" onclick="validateAndNext(4, 5)">Next — Section D →</button>
+      </div>
+    </div>
+
+    <!-- PAGE 5: Section D -->
+    <div class="form-page" id="page-5" style="display:none;">
+      <span class="page-section-label">Section D</span>
+      <h2 class="page-title">Final Checks</h2>
+      <p class="page-desc">A few last questions before you submit.</p>
+
+      <div class="field">
+        <label>Do you agree that inactivity may result in removal to make space for active players? <span class="req">*</span></label>
+        <div class="radio-group" id="rg-agreeInactivity">
+          <label class="radio-option"><input type="radio" name="agreeInactivity" value="Yes, I agree"> <span>Yes, I agree</span></label>
+          <label class="radio-option"><input type="radio" name="agreeInactivity" value="No"> <span>No</span></label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Do you understand that consistent inactivity may completely remove your ability to play in future events? <span class="req">*</span></label>
+        <div class="radio-group" id="rg-understandInactivity">
+          <label class="radio-option"><input type="radio" name="understandInactivity" value="Yes, I understand"> <span>Yes, I understand</span></label>
+          <label class="radio-option"><input type="radio" name="understandInactivity" value="No"> <span>No</span></label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>How committed are you to participating for the full duration? <span class="req">*</span></label>
+        <div class="scale-wrap" id="scale-commitment"></div>
+        <div class="scale-labels"><span>1 — Not very</span><span>5 — Fully committed</span></div>
+      </div>
+
+      <div class="field">
+        <label>Do you understand this isn't primarily PvP but more for roleplay, lore and fun? <span class="req">*</span></label>
+        <div class="radio-group" id="rg-understandNotPvp">
+          <label class="radio-option"><input type="radio" name="understandNotPvp" value="Yes, I understand"> <span>Yes, I understand</span></label>
+          <label class="radio-option"><input type="radio" name="understandNotPvp" value="No"> <span>No</span></label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Not knowing the rules doesn't prevent you from responsibility. Do you understand you will get punished for breaking them? <span class="req">*</span></label>
+        <div class="radio-group" id="rg-understandRules">
+          <label class="radio-option"><input type="radio" name="understandRules" value="Yes, I understand"> <span>Yes, I understand</span></label>
+          <label class="radio-option"><input type="radio" name="understandRules" value="No"> <span>No</span></label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Anything else you want us to know?</label>
+        <textarea id="f-anythingElse" placeholder="Optional — any extra context, questions, or notes for staff…" maxlength="500"></textarea>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn btn-ghost" onclick="goToPage(4)">← Back</button>
+        <button class="btn btn-primary" id="submitBtn" onclick="submitApplication()">Submit Application</button>
+      </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="form-page" id="page-success" style="display:none;">
+      <div class="success-card">
+        <div class="success-icon">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h2>Application Submitted!</h2>
+        <p>Thank you for applying to Unified Events Season 1. A staff member will review your application within 24–72 hours. You'll be notified via Discord DM when a decision is made.<br><br>You may not apply again unless notified to do so.</p>
+      </div>
+    </div>
+
+  </div>
+
 </main>
 
 <footer>
   <div class="wrap footer-inner">
     <a href="/" class="brand">
-      <svg class="brand-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <svg class="brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
         <path d="M16 2 L29 16 L16 30 L16 16 Z" fill="#4169ff"/>
         <path d="M16 2 L3 16 L16 30 L16 16 Z" fill="#ff3b4e"/>
       </svg>
@@ -398,70 +552,96 @@ footer{
 <div class="toast" id="toast"><span class="toast-dot"></span><span id="toastMsg"></span></div>
 
 <script>
-/* ---- AUTH STATE ---- */
 let currentUser = null;
+let currentPage = 1;
+const scaleValues = { pvp: 0, building: 0, commitment: 0 };
 
-async function loadAuth(){
-  try{
+/* ---- AUTH ---- */
+async function loadAuth() {
+  try {
     const res = await fetch("/auth/me");
     const data = await res.json();
     currentUser = data.user || null;
-  } catch {
-    currentUser = null;
-  }
+  } catch { currentUser = null; }
   renderAuth();
   handleAuthParam();
+  if (currentUser) await checkApplicationStatus();
 }
 
-function renderAuth(){
+function renderAuth() {
   const isLoggedIn = !!currentUser;
-  const chip = document.getElementById("authChip");
-  const avatarEl = document.getElementById("authAvatar");
+  const chip       = document.getElementById("authChip");
+  const avatarEl   = document.getElementById("authAvatar");
   const usernameEl = document.getElementById("authUsername");
-  const statusCard = document.getElementById("statusCard");
-  const loginPrompt = document.getElementById("loginPrompt");
 
-  if(isLoggedIn){
-    if(currentUser.avatar){
+  if (isLoggedIn) {
+    if (currentUser.avatar) {
       avatarEl.innerHTML = `<img src="${currentUser.avatar}" alt="">`;
     } else {
       avatarEl.textContent = currentUser.username.slice(0,2).toUpperCase();
     }
     usernameEl.textContent = currentUser.username;
     chip.style.display = "flex";
-    statusCard.style.display = "flex";
-    loginPrompt.style.display = "none";
+    document.body.classList.add("is-authed");
 
-    // Swap login buttons to logout
-    document.querySelectorAll(".auth-login-btn, #authBtn, #authBtnMobile, #authBtnHero").forEach(btn => {
-      btn.textContent = "Log out";
-      btn.classList.remove("btn-discord");
-      btn.classList.add("btn-ghost");
+    // Update auth buttons to logout
+    ["authBtn","authBtnMobile"].forEach(id => {
+      const btn = document.getElementById(id);
+      if (btn) { btn.textContent = "Log out"; btn.classList.remove("btn-discord"); btn.classList.add("btn-ghost"); }
     });
+
+    document.getElementById("landingActions").style.display = "none";
+    document.getElementById("loggedInContent").style.display = "block";
+
+    // Pre-fill discord username
+    const discordField = document.getElementById("f-discordUsername");
+    if (discordField) discordField.value = currentUser.username;
   } else {
     chip.style.display = "none";
-    statusCard.style.display = "none";
-    loginPrompt.style.display = "block";
+    document.body.classList.remove("is-authed");
+    document.getElementById("landingActions").style.display = "flex";
+    document.getElementById("loggedInContent").style.display = "none";
   }
-
-  document.body.classList.toggle("is-authed", isLoggedIn);
 }
 
-function handleAuthClick(){
-  if(currentUser){
-    fetch("/auth/logout", { method: "POST" }).then(() => {
-      currentUser = null;
-      renderAuth();
-    });
+async function checkApplicationStatus() {
+  try {
+    const res = await fetch("/api/applications/me");
+    const data = await res.json();
+
+    if (data.application) {
+      // Already applied
+      document.getElementById("alreadyCard").style.display = "block";
+      document.getElementById("applyCard").style.display = "none";
+      const statusEl = document.getElementById("alreadyStatus");
+      const s = data.application.status;
+      statusEl.className = `already-status ${s}`;
+      statusEl.textContent = s === "pending" ? "● Pending review" : s === "accepted" ? "✓ Accepted" : "✕ Not accepted";
+    } else if (data.blocked) {
+      document.getElementById("alreadyCard").style.display = "block";
+      document.getElementById("applyCard").style.display = "none";
+      document.getElementById("alreadyStatus").textContent = "⛔ Blocked this season";
+    } else {
+      document.getElementById("applyCard").style.display = "block";
+      document.getElementById("alreadyCard").style.display = "none";
+    }
+  } catch {
+    document.getElementById("applyCard").style.display = "block";
+  }
+}
+
+function handleAuthClick() {
+  if (currentUser) {
+    fetch("/auth/logout", { method: "POST" }).then(() => { currentUser = null; renderAuth(); });
   } else {
     window.location.href = "/auth/discord";
   }
 }
 
-function handleAuthParam(){
+function handleAuthParam() {
   const params = new URLSearchParams(window.location.search);
   const auth = params.get("auth");
-  if(!auth) return;
+  if (!auth) return;
   window.history.replaceState({}, "", window.location.pathname);
   const messages = {
     success: "Logged in successfully.",
@@ -469,12 +649,196 @@ function handleAuthParam(){
     not_in_server: "You must be in the Unified Events Discord server to log in.",
     error: "Something went wrong. Try again.",
   };
-  if(messages[auth]) showToast(messages[auth]);
+  if (messages[auth]) showToast(messages[auth]);
+}
+
+/* ---- SCALE BUTTONS ---- */
+function buildScale(containerId, key) {
+  const wrap = document.getElementById(containerId);
+  for (let i = 1; i <= 5; i++) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "scale-btn";
+    btn.textContent = i;
+    btn.addEventListener("click", () => {
+      scaleValues[key] = i;
+      wrap.querySelectorAll(".scale-btn").forEach((b, idx) => {
+        b.classList.toggle("selected", idx < i);
+      });
+    });
+    wrap.appendChild(btn);
+  }
+}
+
+/* ---- RADIO GROUPS ---- */
+function setupRadioGroups() {
+  document.querySelectorAll(".radio-group").forEach(group => {
+    group.querySelectorAll(".radio-option").forEach(option => {
+      const input = option.querySelector("input[type='radio']");
+      input.addEventListener("change", () => {
+        group.querySelectorAll(".radio-option").forEach(o => o.classList.remove("selected"));
+        option.classList.add("selected");
+      });
+    });
+  });
+}
+
+/* ---- NAVIGATION ---- */
+function goToPage(page) {
+  document.querySelectorAll(".form-page").forEach(p => p.style.display = "none");
+  const el = document.getElementById(`page-${page}`);
+  if (el) { el.style.display = "block"; currentPage = page; updateProgress(page); }
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function updateProgress(page) {
+  for (let i = 1; i <= 5; i++) {
+    const circle = document.getElementById(`step-circle-${i}`);
+    const line   = document.getElementById(`step-line-${i}`);
+    if (!circle) continue;
+    circle.className = "step-circle";
+    if (i < page) circle.classList.add("done");
+    else if (i === page) circle.classList.add("active");
+    if (line) line.className = `step-line${i < page ? " done" : ""}`;
+  }
+}
+
+/* ---- VALIDATION ---- */
+function getRadioValue(name) {
+  const checked = document.querySelector(`input[name="${name}"]:checked`);
+  return checked ? checked.value : "";
+}
+
+function showFormError(msg) {
+  const el = document.getElementById("formError");
+  el.textContent = msg;
+  el.classList.add("visible");
+  el.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+function clearFormError() {
+  const el = document.getElementById("formError");
+  el.classList.remove("visible");
+}
+
+function validateAndNext(fromPage, toPage) {
+  clearFormError();
+
+  if (fromPage === 2) {
+    if (!document.getElementById("f-minecraftUsername").value.trim()) return showFormError("Please enter your Minecraft username.");
+    if (!document.getElementById("f-age").value.trim()) return showFormError("Please enter your age.");
+    if (!document.getElementById("f-timezone").value.trim()) return showFormError("Please enter your timezone.");
+    if (!document.getElementById("f-country").value.trim()) return showFormError("Please enter your country.");
+    if (!document.getElementById("f-hoursAvailable").value.trim()) return showFormError("Please enter your available hours.");
+    if (!getRadioValue("voiceChat")) return showFormError("Please answer the voice chat question.");
+    if (!getRadioValue("recordings")) return showFormError("Please answer the recordings question.");
+  }
+
+  if (fromPage === 3) {
+    if (!document.getElementById("f-yearsPlayed").value) return showFormError("Please select how long you've played Minecraft.");
+    if (!getRadioValue("javaOrBedrock")) return showFormError("Please select Java or Bedrock.");
+    if (!document.getElementById("f-playerType").value) return showFormError("Please select your player type.");
+    if (!scaleValues.pvp) return showFormError("Please rate your PvP skills.");
+    if (!scaleValues.building) return showFormError("Please rate your building skills.");
+  }
+
+  if (fromPage === 4) {
+    if (!document.getElementById("f-whyJoin").value.trim()) return showFormError("Please answer why you want to join.");
+    if (!document.getElementById("f-whatPlanToDo").value.trim()) return showFormError("Please answer what you plan to do.");
+    if (!document.getElementById("f-whatMakesFit").value.trim()) return showFormError("Please answer what makes you fit.");
+    if (!document.getElementById("f-preferredCountry").value.trim()) return showFormError("Please enter your preferred country.");
+  }
+
+  goToPage(toPage);
+}
+
+/* ---- SUBMIT ---- */
+async function submitApplication() {
+  clearFormError();
+
+  if (!getRadioValue("agreeInactivity")) return showFormError("Please answer the inactivity agreement question.");
+  if (!getRadioValue("understandInactivity")) return showFormError("Please answer the inactivity understanding question.");
+  if (!scaleValues.commitment) return showFormError("Please rate your commitment level.");
+  if (!getRadioValue("understandNotPvp")) return showFormError("Please confirm you understand this isn't primarily PvP.");
+  if (!getRadioValue("understandRules")) return showFormError("Please confirm you understand the rules responsibility.");
+
+  const submitBtn = document.getElementById("submitBtn");
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Submitting…";
+
+  const payload = {
+    minecraftUsername:    document.getElementById("f-minecraftUsername").value.trim(),
+    age:                  document.getElementById("f-age").value.trim(),
+    timezone:             document.getElementById("f-timezone").value.trim(),
+    country:              document.getElementById("f-country").value.trim(),
+    hoursAvailable:       document.getElementById("f-hoursAvailable").value.trim(),
+    hasVoiceChat:         getRadioValue("voiceChat"),
+    canShareRecordings:   getRadioValue("recordings"),
+    yearsPlayed:          document.getElementById("f-yearsPlayed").value,
+    javaOrBedrock:        getRadioValue("javaOrBedrock"),
+    playerType:           document.getElementById("f-playerType").value,
+    pvpSkill:             scaleValues.pvp,
+    buildingSkill:        scaleValues.building,
+    whyJoin:              document.getElementById("f-whyJoin").value.trim(),
+    whatPlanToDo:         document.getElementById("f-whatPlanToDo").value.trim(),
+    whatMakesFit:         document.getElementById("f-whatMakesFit").value.trim(),
+    preferredCountry:     document.getElementById("f-preferredCountry").value.trim(),
+    agreeInactivity:      getRadioValue("agreeInactivity"),
+    understandInactivity: getRadioValue("understandInactivity"),
+    commitment:           scaleValues.commitment,
+    anythingElse:         document.getElementById("f-anythingElse").value.trim(),
+    understandNotPvp:     getRadioValue("understandNotPvp"),
+    understandRules:      getRadioValue("understandRules"),
+  };
+
+  try {
+    const res = await fetch("/api/applications", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+
+    if (!data.success) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Submit Application";
+      return showFormError(data.message || "Something went wrong. Try again.");
+    }
+
+    // Success
+    goToPage("success");
+    document.getElementById("formShell").style.display = "block";
+    document.getElementById("landingSection").style.display = "none";
+  } catch (err) {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Submit Application";
+    showFormError("Couldn't reach the server. Check your connection.");
+    console.error(err);
+  }
+}
+
+/* ---- START FORM ---- */
+document.getElementById("startFormBtn")?.addEventListener("click", () => {
+  document.getElementById("landingSection").style.display = "none";
+  document.getElementById("formShell").classList.add("visible");
+  goToPage(1);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+/* ---- NAV ---- */
+function setupNav() {
+  const burger  = document.getElementById("burgerBtn");
+  const panel   = document.getElementById("mobilePanel");
+  burger?.addEventListener("click", () => {
+    const open = panel.classList.toggle("open");
+    burger.setAttribute("aria-expanded", open);
+  });
 }
 
 /* ---- TOAST ---- */
 let toastTimer;
-function showToast(msg){
+function showToast(msg) {
   document.getElementById("toastMsg").textContent = msg;
   const toast = document.getElementById("toast");
   toast.classList.add("show");
@@ -482,21 +846,18 @@ function showToast(msg){
   toastTimer = setTimeout(() => toast.classList.remove("show"), 3500);
 }
 
-/* ---- NAV ---- */
-function setupNav(){
-  const burger = document.getElementById("burgerBtn");
-  const panel = document.getElementById("mobilePanel");
-  burger?.addEventListener("click", () => {
-    const open = panel.classList.toggle("open");
-    burger.setAttribute("aria-expanded", open);
-  });
-}
+/* ---- AUTH BUTTONS ---- */
+["authBtn","authBtnMobile","authBtnHero"].forEach(id => {
+  document.getElementById(id)?.addEventListener("click", handleAuthClick);
+});
 
 /* ---- INIT ---- */
-document.getElementById("authBtn").addEventListener("click", handleAuthClick);
-document.getElementById("authBtnMobile").addEventListener("click", handleAuthClick);
-document.getElementById("authBtnHero").addEventListener("click", handleAuthClick);
+buildScale("scale-pvp", "pvp");
+buildScale("scale-building", "building");
+buildScale("scale-commitment", "commitment");
+setupRadioGroups();
 setupNav();
 loadAuth();
 </script>
 </body>
+</html>

@@ -317,7 +317,7 @@ router.patch("/:id", requireReviewer, async (req, res) => {
         app.discordId,
         isBlocked
           ? `Your application was reviewed and unfortunately wasn't successful.${reviewNote ? `\n\nNote from staff: ${reviewNote}` : ""}\n\nThis was your second attempt — you won't be able to apply again until a new season opens.`
-          : `Your application wasn't successful this time.${reviewNote ? `\n\nNote from staff: ${reviewNote}` : ""}\n\nYou may be granted a second attempt — keep an eye on your notifications.`
+          : `Your application wasn't successful this time.${reviewNote ? `\n\nNote from staff: ${reviewNote}` : ""}\n\nYou may be granted a second attempt — you may be able to apply again in the next wave`
       );
 
       await sendUnifiedEventsNotification(
@@ -369,7 +369,7 @@ router.patch("/:id", requireReviewer, async (req, res) => {
 
       await sendDiscordDM(
         app.discordId,
-        `✅ You've been granted a second application attempt. Head back to the applications portal to apply again.\nhttps://unified-apply.onrender.com`
+        `✅ You've been granted a second application attempt. You may apply back here once a second wave is open. You will be notified when you are able to apply for a 2nd time. \nhttps://unified-apply.onrender.com`
       );
       await sendUnifiedEventsNotification(
         app.discordId,

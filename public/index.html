@@ -75,7 +75,7 @@ main{flex:1;display:flex;flex-direction:column;}
 .status-card{margin-top:3rem;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-lg);padding:2rem;max-width:580px;display:flex;flex-direction:column;gap:1rem;}
 .status-badge-lg{display:inline-flex;align-items:center;gap:0.55rem;font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.4rem 0.9rem;border-radius:99px;background:rgba(255,255,255,0.04);border:1px solid var(--line);color:var(--mist-dim);align-self:flex-start;}
 .status-badge-lg .dot{width:7px;height:7px;border-radius:50%;background:var(--mist-dim);flex-shrink:0;}
-.status-badge-lg.is-open{color:var(--green);border-color:rgba(246, 2, 2, 0.35);background:rgba(240, 33, 5, 0.986);}
+.status-badge-lg.is-open{color:var(--green);border-color:rgba(61,220,138,0.35);background:rgba(61,220,138,0.08);}
 .status-badge-lg.is-open .dot{background:var(--green);animation:pulse-dot 1.6s ease-in-out infinite;}
 @keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:0.3;}}
 .status-card h2{font-family:var(--font-display);font-weight:700;font-size:1.5rem;line-height:1.15;}
@@ -244,7 +244,7 @@ footer{border-top:1px solid var(--line-soft);padding-top:2rem;padding-bottom:1.8
 
           <!-- Can apply -->
           <div class="status-card" id="applyCard" style="display:none;">
-            <span class="status-badge-lg is-open"><span class="dot"></span>Closed Temporarily</span>
+            <span class="status-badge-lg is-open"><span class="dot"></span>Applications Open</span>
             <h2>200 Player European Civilization Event</h2>
             <p>Applications are open for Season 1. Fill out the form to secure your spot — staff will review your application within 24–72 hours.</p>
             <div>
@@ -557,72 +557,15 @@ let currentPage = 1;
 const scaleValues = { pvp: 0, building: 0, commitment: 0 };
 
 /* ---- AUTH ---- */
-async function checkApplicationStatus() {
+async function loadAuth() {
   try {
-    const res = await fetch("/api/applications/me");
+    const res = await fetch("/auth/me");
     const data = await res.json();
-
-    const app = data.application;
-
-    if (!app) {
-      // No application at all — show apply card
-      document.getElementById("applyCard").style.display = "block";
-      document.getElementById("alreadyCard").style.display = "none";
-      return;
-    }
-
-    if (data.blocked) {
-      // Blocked after 2 rejections
-      document.getElementById("alreadyCard").style.display = "block";
-      document.getElementById("applyCard").style.display = "none";
-      const statusEl = document.getElementById("alreadyStatus");
-      statusEl.className = "already-status rejected";
-      statusEl.textContent = "⛔ Blocked this season";
-      return;
-    }
-
-    if (app.status === "pending") {
-      // Pending — show waiting card
-      document.getElementById("alreadyCard").style.display = "block";
-      document.getElementById("applyCard").style.display = "none";
-      const statusEl = document.getElementById("alreadyStatus");
-      statusEl.className = "already-status pending";
-      statusEl.textContent = "● Pending review";
-      return;
-    }
-
-    if (app.status === "accepted") {
-      // Accepted
-      document.getElementById("alreadyCard").style.display = "block";
-      document.getElementById("applyCard").style.display = "none";
-      const statusEl = document.getElementById("alreadyStatus");
-      statusEl.className = "already-status accepted";
-      statusEl.textContent = "✓ Accepted";
-      return;
-    }
-
-    if (app.status === "rejected") {
-      if (app.canReapply && app.attemptNumber < 2) {
-        // Rejected but granted reapply — show apply card
-        document.getElementById("applyCard").style.display = "block";
-        document.getElementById("alreadyCard").style.display = "none";
-        // Update the card to reflect second attempt context
-        document.getElementById("applyCard").querySelector("p").textContent =
-          "Your first application was reviewed. Staff have granted you a second attempt — fill out the form again to reapply.";
-        return;
-      }
-      // Rejected, no reapply
-      document.getElementById("alreadyCard").style.display = "block";
-      document.getElementById("applyCard").style.display = "none";
-      const statusEl = document.getElementById("alreadyStatus");
-      statusEl.className = "already-status rejected";
-      statusEl.textContent = "✕ Not accepted";
-      return;
-    }
-
-  } catch {
-    document.getElementById("applyCard").style.display = "block";
-  }
+    currentUser = data.user || null;
+  } catch { currentUser = null; }
+  renderAuth();
+  handleAuthParam();
+  if (currentUser) await checkApplicationStatus();
 }
 
 function renderAuth() {

@@ -59,7 +59,6 @@ body.is-authed .auth-chip{display:flex;}
 
 main{flex:1;display:flex;flex-direction:column;}
 
-/* ---- HERO / LANDING ---- */
 .hero{position:relative;padding-top:clamp(56px,9vw,84px);padding-bottom:clamp(56px,9vw,96px);overflow:hidden;flex:1;display:flex;align-items:center;}
 .hero-glow{position:absolute;top:-20%;width:55%;height:90%;filter:blur(60px);opacity:0.4;border-radius:50%;pointer-events:none;}
 .hero-glow.blue{left:-12%;background:radial-gradient(circle,var(--blue) 0%,transparent 70%);animation:drift-a 14s ease-in-out infinite;}
@@ -71,7 +70,6 @@ main{flex:1;display:flex;flex-direction:column;}
 .hero-sub{margin-top:1.3rem;font-size:clamp(1rem,2vw,1.12rem);color:var(--mist);max-width:500px;}
 .hero-actions{display:flex;gap:0.9rem;margin-top:2rem;flex-wrap:wrap;}
 
-/* ---- STATUS CARD (logged in, no application yet) ---- */
 .status-card{margin-top:3rem;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-lg);padding:2rem;max-width:580px;display:flex;flex-direction:column;gap:1rem;}
 .status-badge-lg{display:inline-flex;align-items:center;gap:0.55rem;font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.4rem 0.9rem;border-radius:99px;background:rgba(255,255,255,0.04);border:1px solid var(--line);color:var(--mist-dim);align-self:flex-start;}
 .status-badge-lg .dot{width:7px;height:7px;border-radius:50%;background:var(--mist-dim);flex-shrink:0;}
@@ -81,40 +79,27 @@ main{flex:1;display:flex;flex-direction:column;}
 .status-card h2{font-family:var(--font-display);font-weight:700;font-size:1.5rem;line-height:1.15;}
 .status-card p{font-size:0.92rem;color:var(--mist);line-height:1.6;}
 
-/* ---- LOGIN PROMPT ---- */
-.login-prompt{margin-top:3rem;max-width:420px;}
-.login-prompt p{font-size:0.9rem;color:var(--mist);margin-bottom:1.2rem;line-height:1.6;}
-
-/* ---- MULTI-STEP FORM ---- */
 .form-shell{max-width:720px;margin:0 auto;padding-block:clamp(48px,8vw,80px);display:none;}
 .form-shell.visible{display:block;}
 
-/* Progress bar */
 .progress-wrap{margin-bottom:2.5rem;}
-.progress-steps{display:flex;align-items:center;gap:0;}
-.progress-step{display:flex;align-items:center;gap:0;flex:1;}
+.progress-steps{display:flex;align-items:center;}
+.progress-step{display:flex;align-items:center;flex:1;}
 .step-circle{width:32px;height:32px;border-radius:50%;border:2px solid var(--line);background:var(--void-soft);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:0.72rem;font-weight:600;color:var(--mist-dim);flex-shrink:0;transition:all 0.25s ease;}
 .step-circle.active{border-color:var(--blue);background:var(--blue);color:#fff;}
 .step-circle.done{border-color:var(--green);background:var(--green);color:#fff;}
 .step-line{flex:1;height:2px;background:var(--line);transition:background 0.25s ease;}
 .step-line.done{background:var(--green);}
 .progress-step:last-child .step-line{display:none;}
-.progress-label{font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--mist-dim);margin-top:0.6rem;}
-.progress-label.active{color:var(--blue);}
 
-/* Page header */
-.page-section-label{font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue);margin-bottom:0.4rem;}
+.page-section-label{font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue);margin-bottom:0.4rem;display:block;}
 .page-title{font-family:var(--font-display);font-weight:800;font-size:clamp(1.8rem,4vw,2.6rem);text-transform:uppercase;margin-bottom:0.5rem;}
 .page-desc{color:var(--mist);font-size:0.95rem;margin-bottom:2rem;max-width:560px;}
 
-/* Form fields */
 .field{display:flex;flex-direction:column;gap:0.45rem;margin-bottom:1.4rem;}
 .field label{font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--mist);}
 .field label .req{color:var(--red);margin-left:3px;}
-.field input[type="text"],
-.field input[type="number"],
-.field select,
-.field textarea{background:var(--void-soft);border:1px solid var(--line);border-radius:var(--radius);padding:0.8rem 1rem;font-family:var(--font-body);font-size:0.95rem;color:var(--ink);transition:border-color 0.15s ease,background 0.15s ease,box-shadow 0.15s ease;width:100%;appearance:none;}
+.field input[type="text"],.field select,.field textarea{background:var(--void-soft);border:1px solid var(--line);border-radius:var(--radius);padding:0.8rem 1rem;font-family:var(--font-body);font-size:0.95rem;color:var(--ink);transition:border-color 0.15s ease,background 0.15s ease,box-shadow 0.15s ease;width:100%;appearance:none;}
 .field input::placeholder,.field textarea::placeholder{color:var(--mist-dim);}
 .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:rgba(65,105,255,0.55);background:var(--panel);box-shadow:0 0 0 3px rgba(65,105,255,0.1);}
 .field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b92a6' stroke-width='1.8'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 0.9rem center;background-size:16px;padding-right:2.5rem;cursor:pointer;}
@@ -123,7 +108,6 @@ main{flex:1;display:flex;flex-direction:column;}
 .field-hint{font-family:var(--font-mono);font-size:0.68rem;color:var(--mist-dim);letter-spacing:0.02em;}
 .field-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;}
 
-/* Radio group */
 .radio-group{display:flex;flex-direction:column;gap:0.5rem;}
 .radio-option{display:flex;align-items:center;gap:0.7rem;padding:0.7rem 1rem;border:1px solid var(--line);border-radius:var(--radius);cursor:pointer;transition:border-color 0.15s ease,background 0.15s ease;}
 .radio-option:hover{border-color:rgba(255,255,255,0.2);background:rgba(255,255,255,0.02);}
@@ -131,32 +115,27 @@ main{flex:1;display:flex;flex-direction:column;}
 .radio-option.selected{border-color:rgba(65,105,255,0.5);background:rgba(65,105,255,0.06);}
 .radio-option span{font-size:0.92rem;}
 
-/* Linear scale */
 .scale-wrap{display:flex;gap:0.5rem;align-items:center;}
 .scale-btn{width:44px;height:44px;border-radius:var(--radius);border:1px solid var(--line);background:var(--void-soft);color:var(--mist);font-family:var(--font-mono);font-size:0.88rem;font-weight:600;transition:all 0.15s ease;display:flex;align-items:center;justify-content:center;}
 .scale-btn:hover{border-color:rgba(255,255,255,0.25);color:var(--ink);}
 .scale-btn.selected{background:linear-gradient(115deg,var(--blue),var(--red));border-color:transparent;color:#fff;}
 .scale-labels{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:0.64rem;color:var(--mist-dim);letter-spacing:0.04em;text-transform:uppercase;margin-top:0.3rem;}
 
-/* Nav buttons */
 .form-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--line-soft);}
 
-/* Intro page */
 .intro-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-lg);padding:2rem;margin-bottom:2rem;}
 .intro-card h3{font-family:var(--font-display);font-weight:700;font-size:1.4rem;margin-bottom:0.8rem;}
 .intro-card p{color:var(--mist);font-size:0.92rem;line-height:1.7;}
 .intro-card .video-link{display:inline-flex;align-items:center;gap:0.5rem;color:var(--blue);font-family:var(--font-mono);font-size:0.78rem;letter-spacing:0.04em;text-transform:uppercase;margin-top:1rem;border:1px solid rgba(65,105,255,0.35);border-radius:var(--radius);padding:0.55rem 1rem;transition:background 0.15s ease;}
 .intro-card .video-link:hover{background:rgba(65,105,255,0.08);}
 
-/* Success page */
 .success-card{text-align:center;padding:3rem 2rem;background:var(--panel);border:1px solid rgba(61,220,138,0.25);border-radius:var(--radius-lg);}
 .success-icon{width:64px;height:64px;border-radius:50%;background:rgba(61,220,138,0.12);border:1px solid rgba(61,220,138,0.35);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;}
 .success-icon svg{width:28px;height:28px;stroke:var(--green);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 .success-card h2{font-family:var(--font-display);font-weight:700;font-size:1.8rem;margin-bottom:0.8rem;}
 .success-card p{color:var(--mist);font-size:0.95rem;max-width:480px;margin:0 auto;line-height:1.7;}
 
-/* Already applied card */
-.already-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-lg);padding:2rem;max-width:580px;}
+.already-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-lg);padding:2rem;max-width:580px;margin-top:3rem;}
 .already-card h2{font-family:var(--font-display);font-weight:700;font-size:1.5rem;margin-bottom:0.6rem;}
 .already-card p{color:var(--mist);font-size:0.92rem;line-height:1.6;}
 .already-status{display:inline-flex;align-items:center;gap:0.5rem;font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.35rem 0.8rem;border-radius:99px;border:1px solid var(--line);margin-top:0.8rem;}
@@ -164,18 +143,15 @@ main{flex:1;display:flex;flex-direction:column;}
 .already-status.accepted{color:var(--green);border-color:rgba(61,220,138,0.35);background:rgba(61,220,138,0.08);}
 .already-status.rejected{color:var(--red);border-color:rgba(255,59,78,0.35);background:rgba(255,59,78,0.08);}
 
-/* Error */
 .form-error{background:rgba(255,59,78,0.08);border:1px solid rgba(255,59,78,0.25);border-radius:var(--radius);padding:0.75rem 1rem;font-family:var(--font-mono);font-size:0.8rem;color:var(--red);margin-bottom:1.2rem;display:none;}
 .form-error.visible{display:block;}
 
-/* Toast */
 .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--panel-raised);border:1px solid rgba(65,105,255,0.4);border-radius:99px;padding:0.75rem 1.5rem;font-family:var(--font-mono);font-size:0.8rem;color:var(--ink);display:flex;align-items:center;gap:0.6rem;box-shadow:0 12px 36px -8px rgba(0,0,0,0.6);opacity:0;transition:opacity 0.25s ease,transform 0.25s ease;pointer-events:none;z-index:200;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .toast-dot{width:7px;height:7px;border-radius:50%;background:var(--blue);flex-shrink:0;}
 
 footer{border-top:1px solid var(--line-soft);padding-top:2rem;padding-bottom:1.8rem;}
 .footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
-.footer-inner .brand{font-size:1rem;}
 .footer-copy{font-family:var(--font-mono);font-size:0.72rem;color:var(--mist-dim);}
 
 @media(max-width:1080px){.nav-burger{display:flex;}}
@@ -217,7 +193,7 @@ footer{border-top:1px solid var(--line-soft);padding-top:2rem;padding-bottom:1.8
 
 <main>
 
-  <!-- LANDING (not logged in) -->
+  <!-- LANDING -->
   <section class="hero" id="landingSection">
     <div class="hero-glow blue"></div>
     <div class="hero-glow red"></div>
@@ -226,6 +202,8 @@ footer{border-top:1px solid var(--line-soft);padding-top:2rem;padding-bottom:1.8
         <span class="eyebrow is-blue">Civilization Union</span>
         <h1 class="hero-title">UNIFIED<br>APPLICATIONS</h1>
         <p class="hero-sub">The official application portal for Unified Events Season 1 — 200 Player European Civilization Event.</p>
+
+        <!-- Not logged in -->
         <div class="hero-actions" id="landingActions">
           <button class="btn btn-discord" id="authBtnHero">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.032.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 13.91 13.91 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
@@ -233,12 +211,13 @@ footer{border-top:1px solid var(--line-soft);padding-top:2rem;padding-bottom:1.8
           </button>
         </div>
 
-        <!-- Logged in — show status card or apply button -->
+        <!-- Logged in content -->
         <div id="loggedInContent" style="display:none;">
+
           <!-- Already applied -->
           <div class="already-card" id="alreadyCard" style="display:none;">
-            <h2>You've already applied</h2>
-            <p>Your application has been received and is being reviewed by staff. You'll be notified via Discord DM when a decision is made.</p>
+            <h2 id="alreadyTitle">You've already applied</h2>
+            <p id="alreadyDesc">Your application has been received and is being reviewed by staff. You'll be notified via Discord DM when a decision is made.</p>
             <div class="already-status pending" id="alreadyStatus">● Pending review</div>
           </div>
 
@@ -246,11 +225,12 @@ footer{border-top:1px solid var(--line-soft);padding-top:2rem;padding-bottom:1.8
           <div class="status-card" id="applyCard" style="display:none;">
             <span class="status-badge-lg is-open"><span class="dot"></span>Applications Open</span>
             <h2>200 Player European Civilization Event</h2>
-            <p>Applications are open for Season 1. Fill out the form to secure your spot — staff will review your application within 24–72 hours.</p>
+            <p id="applyCardDesc">Applications are open for Season 1. Fill out the form to secure your spot — staff will review your application within 24–72 hours.</p>
             <div>
               <button class="btn btn-primary" id="startFormBtn">Start Application →</button>
             </div>
           </div>
+
         </div>
       </div>
     </div>
@@ -259,26 +239,25 @@ footer{border-top:1px solid var(--line-soft);padding-top:2rem;padding-bottom:1.8
   <!-- MULTI-STEP FORM -->
   <div class="wrap form-shell" id="formShell">
 
-    <!-- Progress -->
     <div class="progress-wrap">
       <div class="progress-steps">
-        <div class="progress-step" id="step-indicator-1">
+        <div class="progress-step">
           <div class="step-circle active" id="step-circle-1">1</div>
           <div class="step-line" id="step-line-1"></div>
         </div>
-        <div class="progress-step" id="step-indicator-2">
+        <div class="progress-step">
           <div class="step-circle" id="step-circle-2">2</div>
           <div class="step-line" id="step-line-2"></div>
         </div>
-        <div class="progress-step" id="step-indicator-3">
+        <div class="progress-step">
           <div class="step-circle" id="step-circle-3">3</div>
           <div class="step-line" id="step-line-3"></div>
         </div>
-        <div class="progress-step" id="step-indicator-4">
+        <div class="progress-step">
           <div class="step-circle" id="step-circle-4">4</div>
           <div class="step-line" id="step-line-4"></div>
         </div>
-        <div class="progress-step" id="step-indicator-5">
+        <div class="progress-step">
           <div class="step-circle" id="step-circle-5">5</div>
           <div class="step-line" id="step-line-5"></div>
         </div>
@@ -291,7 +270,7 @@ footer{border-top:1px solid var(--line-soft);padding-top:2rem;padding-bottom:1.8
     <div class="form-page" id="page-1">
       <span class="page-section-label">Welcome</span>
       <h2 class="page-title">200 Player European<br>Civilization Event</h2>
-      <p class="page-desc">Read the information below before starting your application. Make sure you meet the requirements and understand what this event involves.</p>
+      <p class="page-desc">Read the information below before starting your application.</p>
 
       <div class="intro-card">
         <h3>What is this event?</h3>
@@ -354,7 +333,7 @@ footer{border-top:1px solid var(--line-soft);padding-top:2rem;padding-bottom:1.8
 
       <div class="field">
         <label>Do you have access to voice chat? <span class="req">*</span></label>
-        <div class="radio-group" id="rg-voiceChat">
+        <div class="radio-group">
           <label class="radio-option"><input type="radio" name="voiceChat" value="Yes"> <span>Yes</span></label>
           <label class="radio-option"><input type="radio" name="voiceChat" value="No"> <span>No</span></label>
           <label class="radio-option"><input type="radio" name="voiceChat" value="Sometimes"> <span>Sometimes</span></label>
@@ -363,7 +342,7 @@ footer{border-top:1px solid var(--line-soft);padding-top:2rem;padding-bottom:1.8
 
       <div class="field">
         <label>Are you eligible to share recordings? <span class="req">*</span></label>
-        <div class="radio-group" id="rg-recordings">
+        <div class="radio-group">
           <label class="radio-option"><input type="radio" name="recordings" value="Yes"> <span>Yes</span></label>
           <label class="radio-option"><input type="radio" name="recordings" value="No"> <span>No</span></label>
         </div>
@@ -395,7 +374,7 @@ footer{border-top:1px solid var(--line-soft);padding-top:2rem;padding-bottom:1.8
 
       <div class="field">
         <label>Java or Bedrock? <span class="req">*</span></label>
-        <div class="radio-group" id="rg-javaOrBedrock">
+        <div class="radio-group">
           <label class="radio-option"><input type="radio" name="javaOrBedrock" value="Java"> <span>Java</span></label>
           <label class="radio-option"><input type="radio" name="javaOrBedrock" value="Bedrock"> <span>Bedrock</span></label>
           <label class="radio-option"><input type="radio" name="javaOrBedrock" value="Both"> <span>Both</span></label>
@@ -474,7 +453,7 @@ footer{border-top:1px solid var(--line-soft);padding-top:2rem;padding-bottom:1.8
 
       <div class="field">
         <label>Do you agree that inactivity may result in removal to make space for active players? <span class="req">*</span></label>
-        <div class="radio-group" id="rg-agreeInactivity">
+        <div class="radio-group">
           <label class="radio-option"><input type="radio" name="agreeInactivity" value="Yes, I agree"> <span>Yes, I agree</span></label>
           <label class="radio-option"><input type="radio" name="agreeInactivity" value="No"> <span>No</span></label>
         </div>
@@ -482,7 +461,7 @@ footer{border-top:1px solid var(--line-soft);padding-top:2rem;padding-bottom:1.8
 
       <div class="field">
         <label>Do you understand that consistent inactivity may completely remove your ability to play in future events? <span class="req">*</span></label>
-        <div class="radio-group" id="rg-understandInactivity">
+        <div class="radio-group">
           <label class="radio-option"><input type="radio" name="understandInactivity" value="Yes, I understand"> <span>Yes, I understand</span></label>
           <label class="radio-option"><input type="radio" name="understandInactivity" value="No"> <span>No</span></label>
         </div>
@@ -496,7 +475,7 @@ footer{border-top:1px solid var(--line-soft);padding-top:2rem;padding-bottom:1.8
 
       <div class="field">
         <label>Do you understand this isn't primarily PvP but more for roleplay, lore and fun? <span class="req">*</span></label>
-        <div class="radio-group" id="rg-understandNotPvp">
+        <div class="radio-group">
           <label class="radio-option"><input type="radio" name="understandNotPvp" value="Yes, I understand"> <span>Yes, I understand</span></label>
           <label class="radio-option"><input type="radio" name="understandNotPvp" value="No"> <span>No</span></label>
         </div>
@@ -504,7 +483,7 @@ footer{border-top:1px solid var(--line-soft);padding-top:2rem;padding-bottom:1.8
 
       <div class="field">
         <label>Not knowing the rules doesn't prevent you from responsibility. Do you understand you will get punished for breaking them? <span class="req">*</span></label>
-        <div class="radio-group" id="rg-understandRules">
+        <div class="radio-group">
           <label class="radio-option"><input type="radio" name="understandRules" value="Yes, I understand"> <span>Yes, I understand</span></label>
           <label class="radio-option"><input type="radio" name="understandRules" value="No"> <span>No</span></label>
         </div>
@@ -533,7 +512,6 @@ footer{border-top:1px solid var(--line-soft);padding-top:2rem;padding-bottom:1.8
     </div>
 
   </div>
-
 </main>
 
 <footer>
@@ -562,7 +540,9 @@ async function loadAuth() {
     const res = await fetch("/auth/me");
     const data = await res.json();
     currentUser = data.user || null;
-  } catch { currentUser = null; }
+  } catch {
+    currentUser = null;
+  }
   renderAuth();
   handleAuthParam();
   if (currentUser) await checkApplicationStatus();
@@ -578,22 +558,20 @@ function renderAuth() {
     if (currentUser.avatar) {
       avatarEl.innerHTML = `<img src="${currentUser.avatar}" alt="">`;
     } else {
-      avatarEl.textContent = currentUser.username.slice(0,2).toUpperCase();
+      avatarEl.textContent = currentUser.username.slice(0, 2).toUpperCase();
     }
     usernameEl.textContent = currentUser.username;
     chip.style.display = "flex";
     document.body.classList.add("is-authed");
 
-    // Update auth buttons to logout
-    ["authBtn","authBtnMobile"].forEach(id => {
-      const btn = document.getElementById(id);
-      if (btn) { btn.textContent = "Log out"; btn.classList.remove("btn-discord"); btn.classList.add("btn-ghost"); }
-    });
+    const authBtn = document.getElementById("authBtn");
+    const authBtnMobile = document.getElementById("authBtnMobile");
+    if (authBtn) { authBtn.textContent = "Log out"; authBtn.classList.remove("btn-discord"); authBtn.classList.add("btn-ghost"); }
+    if (authBtnMobile) { authBtnMobile.textContent = "Log out"; authBtnMobile.classList.remove("btn-discord"); authBtnMobile.classList.add("btn-ghost"); }
 
     document.getElementById("landingActions").style.display = "none";
     document.getElementById("loggedInContent").style.display = "block";
 
-    // Pre-fill discord username
     const discordField = document.getElementById("f-discordUsername");
     if (discordField) discordField.value = currentUser.username;
   } else {
@@ -608,23 +586,64 @@ async function checkApplicationStatus() {
   try {
     const res = await fetch("/api/applications/me");
     const data = await res.json();
+    const app = data.application;
 
-    if (data.application) {
-      // Already applied
-      document.getElementById("alreadyCard").style.display = "block";
-      document.getElementById("applyCard").style.display = "none";
-      const statusEl = document.getElementById("alreadyStatus");
-      const s = data.application.status;
-      statusEl.className = `already-status ${s}`;
-      statusEl.textContent = s === "pending" ? "● Pending review" : s === "accepted" ? "✓ Accepted" : "✕ Not accepted";
-    } else if (data.blocked) {
-      document.getElementById("alreadyCard").style.display = "block";
-      document.getElementById("applyCard").style.display = "none";
-      document.getElementById("alreadyStatus").textContent = "⛔ Blocked this season";
-    } else {
+    if (!app) {
       document.getElementById("applyCard").style.display = "block";
       document.getElementById("alreadyCard").style.display = "none";
+      return;
     }
+
+    if (data.blocked) {
+      document.getElementById("alreadyCard").style.display = "block";
+      document.getElementById("applyCard").style.display = "none";
+      document.getElementById("alreadyTitle").textContent = "Applications blocked";
+      document.getElementById("alreadyDesc").textContent = "You have used both application attempts this season and cannot apply again until a new season opens.";
+      const statusEl = document.getElementById("alreadyStatus");
+      statusEl.className = "already-status rejected";
+      statusEl.textContent = "⛔ Blocked this season";
+      return;
+    }
+
+    if (app.status === "pending") {
+      document.getElementById("alreadyCard").style.display = "block";
+      document.getElementById("applyCard").style.display = "none";
+      document.getElementById("alreadyTitle").textContent = "Application submitted";
+      document.getElementById("alreadyDesc").textContent = "Your application has been received and is being reviewed by staff. You'll be notified via Discord DM when a decision is made.";
+      const statusEl = document.getElementById("alreadyStatus");
+      statusEl.className = "already-status pending";
+      statusEl.textContent = "● Pending review";
+      return;
+    }
+
+    if (app.status === "accepted") {
+      document.getElementById("alreadyCard").style.display = "block";
+      document.getElementById("applyCard").style.display = "none";
+      document.getElementById("alreadyTitle").textContent = "Application accepted!";
+      document.getElementById("alreadyDesc").textContent = "Congratulations — your application was accepted. Check your Discord DMs for next steps.";
+      const statusEl = document.getElementById("alreadyStatus");
+      statusEl.className = "already-status accepted";
+      statusEl.textContent = "✓ Accepted";
+      return;
+    }
+
+    if (app.status === "rejected") {
+      if (app.canReapply && app.attemptNumber < 2) {
+        document.getElementById("applyCard").style.display = "block";
+        document.getElementById("alreadyCard").style.display = "none";
+        document.getElementById("applyCardDesc").textContent = "Your first application was reviewed. Staff have granted you a second attempt — fill out the form again to reapply.";
+        return;
+      }
+      document.getElementById("alreadyCard").style.display = "block";
+      document.getElementById("applyCard").style.display = "none";
+      document.getElementById("alreadyTitle").textContent = "Application not accepted";
+      document.getElementById("alreadyDesc").textContent = "Unfortunately your application wasn't successful. You'll be contacted if you're granted a second attempt.";
+      const statusEl = document.getElementById("alreadyStatus");
+      statusEl.className = "already-status rejected";
+      statusEl.textContent = "✕ Not accepted";
+      return;
+    }
+
   } catch {
     document.getElementById("applyCard").style.display = "block";
   }
@@ -632,7 +651,10 @@ async function checkApplicationStatus() {
 
 function handleAuthClick() {
   if (currentUser) {
-    fetch("/auth/logout", { method: "POST" }).then(() => { currentUser = null; renderAuth(); });
+    fetch("/auth/logout", { method: "POST" }).then(() => {
+      currentUser = null;
+      location.reload();
+    });
   } else {
     window.location.href = "/auth/discord";
   }
@@ -644,10 +666,10 @@ function handleAuthParam() {
   if (!auth) return;
   window.history.replaceState({}, "", window.location.pathname);
   const messages = {
-    success: "Logged in successfully.",
-    cancelled: "Login cancelled.",
+    success:       "Logged in successfully.",
+    cancelled:     "Login cancelled.",
     not_in_server: "You must be in the Unified Events Discord server to log in.",
-    error: "Something went wrong. Try again.",
+    error:         "Something went wrong. Try again.",
   };
   if (messages[auth]) showToast(messages[auth]);
 }
@@ -655,6 +677,7 @@ function handleAuthParam() {
 /* ---- SCALE BUTTONS ---- */
 function buildScale(containerId, key) {
   const wrap = document.getElementById(containerId);
+  if (!wrap) return;
   for (let i = 1; i <= 5; i++) {
     const btn = document.createElement("button");
     btn.type = "button";
@@ -686,8 +709,10 @@ function setupRadioGroups() {
 /* ---- NAVIGATION ---- */
 function goToPage(page) {
   document.querySelectorAll(".form-page").forEach(p => p.style.display = "none");
-  const el = document.getElementById(`page-${page}`);
-  if (el) { el.style.display = "block"; currentPage = page; updateProgress(page); }
+  const pageId = page === "success" ? "page-success" : `page-${page}`;
+  const el = document.getElementById(pageId);
+  if (el) { el.style.display = "block"; }
+  if (page !== "success") { currentPage = page; updateProgress(page); }
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -717,8 +742,7 @@ function showFormError(msg) {
 }
 
 function clearFormError() {
-  const el = document.getElementById("formError");
-  el.classList.remove("visible");
+  document.getElementById("formError").classList.remove("visible");
 }
 
 function validateAndNext(fromPage, toPage) {
@@ -806,10 +830,10 @@ async function submitApplication() {
       return showFormError(data.message || "Something went wrong. Try again.");
     }
 
-    // Success
-    goToPage("success");
     document.getElementById("formShell").style.display = "block";
     document.getElementById("landingSection").style.display = "none";
+    goToPage("success");
+
   } catch (err) {
     submitBtn.disabled = false;
     submitBtn.textContent = "Submit Application";
@@ -828,13 +852,18 @@ document.getElementById("startFormBtn")?.addEventListener("click", () => {
 
 /* ---- NAV ---- */
 function setupNav() {
-  const burger  = document.getElementById("burgerBtn");
-  const panel   = document.getElementById("mobilePanel");
+  const burger = document.getElementById("burgerBtn");
+  const panel  = document.getElementById("mobilePanel");
   burger?.addEventListener("click", () => {
     const open = panel.classList.toggle("open");
     burger.setAttribute("aria-expanded", open);
   });
 }
+
+/* ---- AUTH BUTTONS ---- */
+document.getElementById("authBtn")?.addEventListener("click", handleAuthClick);
+document.getElementById("authBtnMobile")?.addEventListener("click", handleAuthClick);
+document.getElementById("authBtnHero")?.addEventListener("click", handleAuthClick);
 
 /* ---- TOAST ---- */
 let toastTimer;
@@ -845,11 +874,6 @@ function showToast(msg) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => toast.classList.remove("show"), 3500);
 }
-
-/* ---- AUTH BUTTONS ---- */
-["authBtn","authBtnMobile","authBtnHero"].forEach(id => {
-  document.getElementById(id)?.addEventListener("click", handleAuthClick);
-});
 
 /* ---- INIT ---- */
 buildScale("scale-pvp", "pvp");

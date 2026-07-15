@@ -139,6 +139,49 @@ router.get("/me", requireAuth, async (req, res) => {
 });
 
 /* ================================================================
+   GET /api/applications/status/:discordId
+   Internal — called by the Discord bot for /status command.
+   Protected by the shared INTERNAL_SECRET.
+================================================================ */
+router.get("/status/:discordId", async (req, res) => {
+  const secret = req.headers["x-internal-secret"];
+  if (!secret || secret !== process.env.INTERNAL_SECRET) {
+    return res.status(401).json({ success: false, message: "Unauthorized." });
+  }
+
+  try {
+    const apps = await Application.find({
+      discordId: req.params.discordId,
+      season: process.env.CURRENT_SEASON || "season-1",
+    }).sort({ attemptNumber: -1 });
+
+    if (apps.length === 0) {
+      return res.json({ success: true, status: "none", application: null });
+    }
+
+    const latest = apps[0];
+    return res.json({
+      success: true,
+      status: latest.status,
+      blocked: latest.blocked,
+      canReapply: latest.canReapply,
+      attemptNumber: latest.attemptNumber,
+      application: {
+        status: latest.status,
+        blocked: latest.blocked,
+        canReapply: latest.canReapply,
+        attemptNumber: latest.attemptNumber,
+        reviewNote: latest.reviewNote || "",
+        createdAt: latest.createdAt,
+      },
+    });
+  } catch (err) {
+    console.error("[GET /api/applications/status]", err);
+    return res.status(500).json({ success: false, message: "Server error." });
+  }
+});
+
+/* ================================================================
    GET /api/applications/me/is-owner
 ================================================================ */
 router.get("/me/is-owner", requireAuth, async (req, res) => {
